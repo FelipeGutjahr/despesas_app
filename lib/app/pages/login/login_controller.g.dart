@@ -102,11 +102,11 @@ mixin _$LoginController on _LoginController, Store {
       ActionController(name: '_LoginController');
 
   @override
-  void changeObscure() {
+  void changeObscurePassword() {
     final _$actionInfo = _$_LoginControllerActionController.startAction(
-        name: '_LoginController.changeObscure');
+        name: '_LoginController.changeObscurePassword');
     try {
-      return super.changeObscure();
+      return super.changeObscurePassword();
     } finally {
       _$_LoginControllerActionController.endAction(_$actionInfo);
     }

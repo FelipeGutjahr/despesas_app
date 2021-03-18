@@ -46,8 +46,12 @@ class LoginPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           getFieldEmail(),
+          SizedBox(height: 2),
+          getEmailError(),
           SizedBox(height: 20),
           getFieldSenha(),
+          SizedBox(height: 2),
+          getSenhaError(),
           SizedBox(height: 20),
           getBtnEntrar()
         ],
@@ -63,30 +67,54 @@ class LoginPage extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(32)
       ),
-      child: TextFormField(
-        decoration: InputDecoration(
-          hintText: 'E-mail',
-          border: InputBorder.none,
-          prefixIcon: Icon(Icons.mail_outline)
-        ),
-        textAlignVertical: TextAlignVertical.center,
-        onEditingComplete: (){FocusScope.of(context).requestFocus(controller.senhaFocus);},
-        keyboardType: TextInputType.emailAddress, 
-        onChanged: (value){
-          if(controller.getWithErrorEmail) {
-            controller.changeWithErrorEmail();
-          }
+      child: Observer(
+        builder: (_){
+          return TextFormField(
+            enabled: !controller.getBusy,
+            focusNode: controller.emailFocus,
+            decoration: InputDecoration(
+              hintText: 'E-mail',
+              border: InputBorder.none,
+              prefixIcon: Icon(Icons.mail_outline)
+            ),
+            textAlignVertical: TextAlignVertical.center,
+            onEditingComplete: (){FocusScope.of(context).requestFocus(controller.senhaFocus);},
+            keyboardType: TextInputType.emailAddress,
+            onChanged: (value){
+              if(controller.getWithErrorEmail) {
+                controller.changeWithErrorEmail();
+              }
+            },
+            validator: (value){
+              if((value.isEmpty || !value.contains('@')) && !controller.getWithErrorEmail){
+                controller.changeWithErrorEmail();
+              }
+              return null;
+            },
+            onSaved: ((val){
+              controller.loginModel.email = val;
+            }),
+          );
         },
-        validator: (value){
-          if((value.isEmpty || !value.contains('@')) && !controller.getWithErrorEmail){
-            controller.changeWithErrorEmail();
-          }
-          return null;
-        },
-        onSaved: ((val){
-          controller.loginModel.email = val;
-        }),
-      ),
+      )
+    );
+  }
+
+  Widget getEmailError() {
+    return Observer(
+      builder: (_){
+        return controller.getWithErrorEmail
+        ? Row(
+          children: [
+            Icon(Icons.error_outline, color: Colors.red),
+            SizedBox(width: 5),
+            Text(
+              'E-mail inválido',
+              style: TextStyle(color: Colors.red)
+            )
+          ],
+        ) : Container(height: 0, width: 0);
+      },
     );
   }
 
@@ -101,6 +129,7 @@ class LoginPage extends StatelessWidget {
       child: Observer(
         builder: (_){
           return TextFormField(
+            enabled: !controller.getBusy,
             focusNode: controller.senhaFocus,
             obscureText: controller.getObscurePassword,
             decoration: InputDecoration(
@@ -109,7 +138,7 @@ class LoginPage extends StatelessWidget {
               prefixIcon: Icon(Icons.lock_outline),
               suffixIcon: IconButton(
                 icon: Icon(controller.getObscurePassword ? Icons.visibility : Icons.visibility_off),
-                onPressed: (){controller.changeObscure();},
+                onPressed: () => controller.changeObscurePassword()
               )
             ),
             textAlignVertical: TextAlignVertical.center,
@@ -131,6 +160,24 @@ class LoginPage extends StatelessWidget {
           );
         }
       ),
+    );
+  }
+
+  Widget getSenhaError() {
+    return Observer(
+      builder: (_){
+        return controller.getWithErrorSenha
+        ? Row(
+          children: [
+            Icon(Icons.error_outline, color: Colors.red),
+            SizedBox(width: 5),
+            Text(
+              'Senha inválida',
+              style: TextStyle(color: Colors.red)
+            )
+          ],
+        ) : Container(height: 0, width: 0);
+      },
     );
   }
 

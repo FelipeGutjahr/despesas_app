@@ -1,6 +1,7 @@
 import 'package:despesas_app/app/pages/home/home_page.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
 import 'package:despesas_app/app/pages/login/login_page.dart';
+import 'package:despesas_app/app/pages/nova_despesa/nova_despesa_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppModule extends Module {
@@ -16,6 +17,7 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
     ChildRoute('/', child: (__, args) => LoginPage()),
     ChildRoute('/login', child: (__, args) => LoginPage()),
-    ChildRoute('/home', child: (__, args) => HomePage())
+    ChildRoute('/home', child: (__, args) => HomePage()),
+    ChildRoute('/nova_despesa', child: (__, args) => NovaDespesa())
   ];
 }

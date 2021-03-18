@@ -1,5 +1,4 @@
 import 'package:despesas_app/app/model/login_model.dart';
-import 'package:despesas_app/app/utils/custon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -11,6 +10,7 @@ class LoginController = _LoginController with _$LoginController;
 abstract class _LoginController with Store {
   
   final formKey = GlobalKey<FormState>();
+  var emailFocus = new FocusNode();
   var senhaFocus = new FocusNode();
 
   LoginModel loginModel = LoginModel();
@@ -28,7 +28,7 @@ abstract class _LoginController with Store {
   bool _withErrorSenha = false;
   
   @action
-  void changeObscure() => _obscurePassword = !_obscurePassword;
+  void changeObscurePassword() => _obscurePassword = !_obscurePassword;
 
   @action
   void changeBusy() => _busy = !_busy;
@@ -52,21 +52,17 @@ abstract class _LoginController with Store {
   bool get getWithErrorSenha => _withErrorSenha;
 
   logar(BuildContext context) async {
-    if(formKey.currentState.validate()) {
+    formKey.currentState.validate();
+    if(!_withErrorEmail && !_withErrorSenha) {
       changeBusy();
-      await Future.delayed(Duration(seconds: 10));
+      await Future.delayed(Duration(seconds: 3));
       formKey.currentState.save();
-      if(loginModel.email == 'gutjahrfelipe@gmail.com' && loginModel.senha == '123456'){
+      if(loginModel.email == '@' && loginModel.senha == '@'){
         Modular.to.pushReplacementNamed('/home');
+        changeBusy();
+        changeObscurePassword();
       } else {
         changeBusy();
-        CustonWidget.showAlertDialog(
-          context: context,
-          title: 'E-mail ou senha inválidos',
-          bodyText: null,
-          textConfirmBtn: 'OK',
-          onPressed: null
-        );
       }
     }
   }
