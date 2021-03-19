@@ -7,8 +7,6 @@ class LoginPage extends StatelessWidget {
 
   final controller = Modular.get<LoginController>();
 
-  get context => null;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +28,7 @@ class LoginPage extends StatelessWidget {
               children: [
                 Text('DESPESAS', style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.white)),
                 SizedBox(height: 20),
-                getForm(),
+                getForm(context),
               ],
             ),
           ),
@@ -39,13 +37,13 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget getForm(){
+  Widget getForm(BuildContext context){
     return Form(
       key: controller.formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          getFieldEmail(),
+          getFieldEmail(context),
           SizedBox(height: 2),
           getEmailError(),
           SizedBox(height: 20),
@@ -53,13 +51,13 @@ class LoginPage extends StatelessWidget {
           SizedBox(height: 2),
           getSenhaError(),
           SizedBox(height: 20),
-          getBtnEntrar()
+          getBtnEntrar(context)
         ],
       ),
     );
   }
 
-  Widget getFieldEmail(){
+  Widget getFieldEmail(BuildContext context){
     return Container(
       height: 48,
       decoration: BoxDecoration(
@@ -78,7 +76,7 @@ class LoginPage extends StatelessWidget {
               prefixIcon: Icon(Icons.mail_outline)
             ),
             textAlignVertical: TextAlignVertical.center,
-            onEditingComplete: (){FocusScope.of(context).requestFocus(controller.senhaFocus);},
+            onEditingComplete: () => FocusScope.of(context).requestFocus(controller.senhaFocus),
             keyboardType: TextInputType.emailAddress,
             onChanged: (value){
               if(controller.getWithErrorEmail) {
@@ -181,7 +179,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget getBtnEntrar(){
+  Widget getBtnEntrar(BuildContext context){
     return Container(
       height: 48,
       child: Observer(

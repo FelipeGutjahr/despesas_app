@@ -10,6 +10,7 @@ class LoginController = _LoginController with _$LoginController;
 abstract class _LoginController with Store {
   
   final formKey = GlobalKey<FormState>();
+  
   var emailFocus = new FocusNode();
   var senhaFocus = new FocusNode();
 
