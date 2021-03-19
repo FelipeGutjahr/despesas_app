@@ -61,7 +61,9 @@ abstract class _LoginController with Store {
       if(loginModel.email == '@' && loginModel.senha == '@'){
         Modular.to.pushReplacementNamed('/home');
         changeBusy();
-        changeObscurePassword();
+        if(!getObscurePassword){
+          changeObscurePassword();
+        }
       } else {
         changeBusy();
       }
