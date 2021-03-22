@@ -12,14 +12,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
-
   final homeController = Modular.get<HomeController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _drawerKey,
+      key: homeController.drawerKey,
       backgroundColor: Colors.white,
       appBar: getAppBar(),
       endDrawerEnableOpenDragGesture: false,
@@ -62,10 +60,6 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       actions: [
-        TextButton(
-          child: Text('INCLUIR', style: TextStyle(fontSize: 20)),
-          onPressed: () => _drawerKey.currentState.openEndDrawer()
-        ),
         ElevatedButton(
           onPressed: () => null,
           style: ButtonStyle(
@@ -83,6 +77,11 @@ class _HomePageState extends State<HomePage> {
               )
             ),
           ),
+        ),
+        Padding(padding: EdgeInsets.only(left: 10)),
+        IconButton(
+          icon: Icon(Icons.add, color: Colors.blueAccent),
+          onPressed: () => homeController.drawerKey.currentState.openEndDrawer(),
         ),
         Padding(padding: EdgeInsets.only(right: 10))
       ],

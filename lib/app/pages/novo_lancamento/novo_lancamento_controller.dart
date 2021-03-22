@@ -23,4 +23,22 @@ abstract class _NovoLancamentoController with Store {
     placeholder: '0',
     maxPlaceHolders: 3
   );
+
+  @observable
+  bool _busy = false;
+
+  @observable
+  bool _receita = true;
+
+  @action
+  void changeBusy() => _busy = !_busy;
+
+  @action
+  void changeReceita() => _receita = !_receita;
+
+  @computed
+  bool get getBusy => _busy;
+
+  @computed
+  bool get getReceita => _receita;
 }

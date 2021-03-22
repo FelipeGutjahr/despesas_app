@@ -15,6 +15,7 @@ class AppModule extends Module {
     Bind((i) => NovoLancamentoController()),
     Bind((i) => HomeController()),
     Bind((i) => BodyHomePageController()),
+    Bind((i) => HomePage()),
   ];
 
   //rotas nomeadas

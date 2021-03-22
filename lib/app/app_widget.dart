@@ -19,7 +19,7 @@ class AppWidget extends StatelessWidget{
         ),
       ),
       title: 'Despesas App',
-      initialRoute: '/',
+      initialRoute: '/home',
     ).modular();
   }
 }
