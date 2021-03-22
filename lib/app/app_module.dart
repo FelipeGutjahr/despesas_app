@@ -1,8 +1,9 @@
+import 'package:despesas_app/app/pages/body_home/body_home_page_controller.dart';
+import 'package:despesas_app/app/pages/home/home_controller.dart';
 import 'package:despesas_app/app/pages/home/home_page.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
 import 'package:despesas_app/app/pages/login/login_page.dart';
-import 'package:despesas_app/app/pages/nova_despesa/nova_despesa_controller.dart';
-import 'package:despesas_app/app/pages/nova_despesa/nova_despesa_page.dart';
+import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_controller.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppModule extends Module {
@@ -11,7 +12,9 @@ class AppModule extends Module {
   @override
   List<Bind> get binds => [
     Bind((i) => LoginController()),
-    Bind((i) => NovaDespesaController())
+    Bind((i) => NovoLancamentoController()),
+    Bind((i) => HomeController()),
+    Bind((i) => BodyHomePageController()),
   ];
 
   //rotas nomeadas
@@ -19,7 +22,6 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
     ChildRoute('/', child: (__, args) => LoginPage()),
     ChildRoute('/login', child: (__, args) => LoginPage()),
-    ChildRoute('/home', child: (__, args) => HomePage()),
-    ChildRoute('/nova_despesa', child: (__, args) => NovaDespesa())
+    ChildRoute('/home', child: (__, args) => HomePage())
   ];
 }

@@ -10,6 +10,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -19,20 +20,25 @@ class LoginPage extends StatelessWidget {
             fit: BoxFit.cover
           ),
         ),
-        child: Center(
-          widthFactor: 1,
-          child: Container(
-            width: 400,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('DESPESAS', style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.white)),
-                SizedBox(height: 20),
-                getForm(context),
-              ],
-            ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: Container(
+            width: MediaQuery.of(context).size.width,
+            child: Center(
+              child: Container(
+                width: 400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('DESPESAS', style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.white)),
+                    SizedBox(height: 20),
+                    getForm(context),
+                  ],
+                ),
+              ),
+            )
           ),
-        )
+        ),
       ),
     );
   }
