@@ -19,8 +19,8 @@ abstract class _BodyPlanoController with Store {
     PlanoModel(codContabil: '1.01', nome: 'ATIVO CIRCULANTE', dre: false),
     PlanoModel(codContabil: '1.01.01', nome: 'ATIVO CIRCULANTE LIQUIDO', dre: false),
     PlanoModel(codContabil: '1.01.01.01', nome: 'Clear Corretora', dre: false),
-    PlanoModel(codContabil: '1.01.01.02', nome: 'Nubank', dre: false),
-    PlanoModel(codContabil: '1.01.01.02', nome: 'Sicoob', dre: false)
+    PlanoModel(codContabil: '1.01.01.02', nome: 'Nubank', dre: true),
+    PlanoModel(codContabil: '1.01.01.02', nome: 'Sicoob', dre: true)
   ];
 
   findAll() async {

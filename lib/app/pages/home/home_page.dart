@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () => null,
           style: ButtonStyle(
             elevation: MaterialStateProperty.all(0),
-            backgroundColor: MaterialStateProperty.all(Colors.white)
+            backgroundColor: MaterialStateProperty.all(Colors.transparent)
           ),
           child: Container(
             width: 40,
@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
           icon: Icon(Icons.add, color: Colors.blueAccent),
           onPressed: () => homeController.drawerKey.currentState.openEndDrawer(),
         ),
-        Padding(padding: EdgeInsets.only(right: 10))
+        SizedBox(width: MediaQuery.of(context).size.width * 0.01),
       ],
     );
   }

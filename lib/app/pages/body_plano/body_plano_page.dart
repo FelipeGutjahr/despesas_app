@@ -15,49 +15,117 @@ class BodyPlanoPage extends StatelessWidget {
         child: Container(
           alignment: Alignment.topCenter,
           padding: EdgeInsets.all(8),
+          //tamanho será a metade da tela e de no minimo 800
           width: MediaQuery.of(context).size.width * 0.5 < 800 ? 800 : MediaQuery.of(context).size.width * 0.5,
-          child: Column(
-            children: [
-              CustonWidget.getTextFormField(
-                context: context,
-                hintText: 'Pesquisar conta',
-                prefixIcon: Icon(Icons.search),
-              ),
-              SizedBox(height: 8),
-              StreamBuilder(
-                stream: planoController.contas,
-                builder: (BuildContext context, AsyncSnapshot<List<PlanoModel>> snapshot) {
-                  if(!snapshot.hasData){
-                    return Center(child: CircularProgressIndicator());
-                  } else if(snapshot.hasError){
-                    return Center(
-                      child: Column(
-                        children: [
-                          Icon(Icons.error_outline_rounded, color: Colors.red),
-                          SizedBox(height: 8),
-                          Text('Ocorreu um erro')
-                        ],
-                      )
-                    );
-                  } else {
-                    return getTile(snapshot.data);
-                  }
-                }
-              )
-            ],
-          ),
+          child: getColumn(context)
         ),
       ),
     );
   }
 
-  Widget getTile(List<PlanoModel> contas) {
+  Widget getColumn(BuildContext context) {
     return Column(
-      children: contas.map((e) => Column(
-        children: [
-          //TODO: implementar listagem de contas do plano de contas
-        ],
-      )).toList(),
+      children: [
+        CustonWidget.getTextFormField(
+          context: context,
+          hintText: 'Pesquisar conta',
+          prefixIcon: Icon(Icons.search),
+        ),
+        SizedBox(height: 8),
+        StreamBuilder(
+          stream: planoController.contas,
+          builder: (BuildContext context, AsyncSnapshot<List<PlanoModel>> snapshot) {
+            if(!snapshot.hasData){
+              return Center(child: CircularProgressIndicator());
+            } else if(snapshot.hasError){
+              return Center(
+                child: Column(
+                  children: [
+                    Icon(Icons.error_outline_rounded, color: Colors.red),
+                    SizedBox(height: 8),
+                    Text('Ocorreu um erro')
+                  ],
+                )
+              );
+            } else {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: Text(
+                            'CÓD CONTÁBIL',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ),
+                        Expanded(
+                          flex: 7,
+                          child: Text(
+                            'CONTA',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              'DRE?',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        ),
+                      ],
+                    ),
+                  ),
+                  getTile(snapshot.data)
+                ],
+              );
+            }
+          }
+        )
+      ],
+    );
+  }
+
+  Widget getTile(List<PlanoModel> contas) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: contas.map((e) => Column(
+          children: [
+            SizedBox(height: 10),
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Text(e.codContabil),
+                ),
+                Expanded(
+                  flex: 7,
+                  child: Text(e.nome),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Text(e.dre ? 'SIM' : 'NÃO')
+                  ),
+                )
+              ],
+            )
+          ],
+        )).toList(),
+      ),
     );
   }
 }
