@@ -2,13 +2,13 @@ import 'package:despesas_app/app/model/item_card_model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rxdart/rxdart.dart';
 
-part 'body_home_page_controller.g.dart';
+part 'body_home_controller.g.dart';
 
- class BodyHomePageController = _BodyHomePageController with _$BodyHomePageController;
+ class BodyHomeController = _BodyHomeController with _$BodyHomeController;
 
- abstract class _BodyHomePageController with Store {
+ abstract class _BodyHomeController with Store {
 
-  _BodyHomePageController(){
+  _BodyHomeController(){
     findAll();
   }
 

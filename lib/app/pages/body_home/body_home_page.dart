@@ -1,94 +1,94 @@
 import 'package:despesas_app/app/model/item_card_model.dart';
-import 'package:despesas_app/app/pages/body_home/body_home_page_controller.dart';
+import 'package:despesas_app/app/pages/body_home/body_home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class BodyHomePage extends StatelessWidget {
 
-  final controller = Modular.get<BodyHomePageController>();
+  final controller = Modular.get<BodyHomeController>(); 
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Center(
-          child: Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Wrap(
-                  spacing: 15,
-                  children: [
-                    StreamBuilder(
-                      stream: controller.getResultadoMensal,
-                      builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-                        return getResultadoMensal(context: context, resultado: snapshot.data);
-                      }
-                    ),
-                    StreamBuilder(
-                      stream: controller.getGastoRecomendado,
-                      builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
-                        return getGastoRecomendado(context: context, recomendado: snapshot.data);
-                      }
-                    )
-                  ],
-                ),
-                Wrap(
-                  runSpacing: 10,
-                  children: [
+      child: Center(
+        child: Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(
+                spacing: 15,
+                children: [
+                  StreamBuilder(
+                    stream: controller.getResultadoMensal,
+                    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                      return getResultadoMensal(context: context, resultado: snapshot.data);
+                    }
+                  ),
+                  StreamBuilder(
+                    stream: controller.getGastoRecomendado,
+                    builder: (BuildContext context, AsyncSnapshot<double> snapshot) {
+                      return getGastoRecomendado(context: context, recomendado: snapshot.data);
+                    }
+                  )
+                ],
+              ),
+              Wrap(
+                runSpacing: 10,
+                children: [
 
-                    /* CARD TOTAL PAGO */
-                    StreamBuilder(
-                      stream: controller.getTotalPago,
-                      builder: (BuildContext context, AsyncSnapshot<List<ItemCardModel>> snapshot) {
-                        return getCard(
-                          context: context,
-                          title: 'Total pago',
-                          textTitleColor: Colors.red[900],
-                          backTitleColor: Colors.red[100],
-                          textValueColor: Colors.red[900],
-                          itens: snapshot.data, 
-                        );
-                      }
-                    ),
+                  /* CARD TOTAL PAGO */
+                  StreamBuilder(
+                    stream: controller.getTotalPago,
+                    builder: (BuildContext context, AsyncSnapshot<List<ItemCardModel>> snapshot) {
+                      return getCard(
+                        context: context,
+                        title: 'Total pago',
+                        textTitleColor: Colors.red[900],
+                        backTitleColor: Colors.red[100],
+                        textValueColor: Colors.red[900],
+                        itens: snapshot.data, 
+                      );
+                    }
+                  ),
 
-                    /* CARD TOTAL RECEBIDO */
-                    StreamBuilder(
-                      stream: controller.getTotalRecebido,
-                      builder: (BuildContext context, AsyncSnapshot<List<ItemCardModel>> snapshot) {
-                        return getCard(
-                          context: context,
-                          title: 'Total recebido',
-                          textTitleColor: Colors.green[900],
-                          backTitleColor: Colors.green[100],
-                          textValueColor: Colors.green[900],
-                          itens: snapshot.data,
-                        );
-                      }
-                    ),
+                  /* CARD TOTAL RECEBIDO */
+                  StreamBuilder(
+                    stream: controller.getTotalRecebido,
+                    builder: (BuildContext context, AsyncSnapshot<List<ItemCardModel>> snapshot) {
+                      return getCard(
+                        context: context,
+                        title: 'Total recebido',
+                        textTitleColor: Colors.green[900],
+                        backTitleColor: Colors.green[100],
+                        textValueColor: Colors.green[900],
+                        itens: snapshot.data,
+                      );
+                    }
+                  ),
 
-                    /* CARD PORTADORES */
-                    StreamBuilder(
-                      stream: controller.getPortadores,
-                      builder: (BuildContext context, AsyncSnapshot<List<ItemCardModel>> snapshot) {
-                        return getCard(
-                          context: context,
-                          title: 'Portadores',
-                          textTitleColor: Colors.white,
-                          backTitleColor: Colors.blue[900],
-                          textValueColor: Colors.black87,
-                          itens: snapshot.data,
-                        );
-                      }
-                    ),
-                  ],
-                ),
-              ],
-            )
-          ),
+                  /* CARD PORTADORES */
+                  StreamBuilder(
+                    stream: controller.getPortadores,
+                    builder: (BuildContext context, AsyncSnapshot<List<ItemCardModel>> snapshot) {
+                      return getCard(
+                        context: context,
+                        title: 'Portadores',
+                        textTitleColor: Colors.white,
+                        backTitleColor: Colors.blue[900],
+                        textValueColor: Colors.black87,
+                        itens: snapshot.data,
+                      );
+                    }
+                  ),
+                ],
+              ),
+            ],
+          )
         ),
-      );
+      ),
+    );
   }
 
   Widget getCard({

@@ -1,4 +1,6 @@
-import 'package:despesas_app/app/pages/body_home/body_home_page_controller.dart';
+import 'package:despesas_app/app/pages/body_home/body_home_controller.dart';
+import 'package:despesas_app/app/pages/body_plano/body_plano_controller.dart';
+import 'package:despesas_app/app/pages/body_plano/body_plano_page.dart';
 import 'package:despesas_app/app/pages/home/home_controller.dart';
 import 'package:despesas_app/app/pages/home/home_page.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
@@ -14,8 +16,8 @@ class AppModule extends Module {
     Bind((i) => LoginController()),
     Bind((i) => NovoLancamentoController()),
     Bind((i) => HomeController()),
-    Bind((i) => BodyHomePageController()),
-    Bind((i) => HomePage()),
+    Bind((i) => BodyHomeController()),
+    Bind((i) => BodyPlanoController()),
   ];
 
   //rotas nomeadas
@@ -23,6 +25,7 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
     ChildRoute('/', child: (__, args) => LoginPage()),
     ChildRoute('/login', child: (__, args) => LoginPage()),
-    ChildRoute('/home', child: (__, args) => HomePage())
+    ChildRoute('/home', child: (__, args) => HomePage()),
+    ChildRoute('/plano', child: (__, args) => BodyPlanoPage())
   ];
 }
