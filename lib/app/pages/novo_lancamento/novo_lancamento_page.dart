@@ -24,6 +24,12 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(5)
+        ),
+      ),
+      margin: EdgeInsets.all(8),
       width: MediaQuery.of(context).size.width * 0.25 < 450 ? 450 : MediaQuery.of(context).size.width * 0.25,
       child: Drawer(
         child: Column(
@@ -33,8 +39,13 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
                 return GestureDetector(
                   onTap: novoLancamentoController.changeReceita,
                   child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(5)
+                      ),
+                      color: novoLancamentoController.getReceita ? Colors.green[100] : Colors.red[100],
+                    ),
                     padding: EdgeInsets.all(8),
-                    color: novoLancamentoController.getReceita ? Colors.green[100] : Colors.red[100],
                     alignment: Alignment.centerRight,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,6 +90,15 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
                           nextFocus: novoLancamentoController.valorFocus,
                           inputFormatters: novoLancamentoController.maskFormatterData,
                           initialValue: DateFormat("dd/MM/yyyy").format(data)
+                        ),
+                        SizedBox(height: 10),
+
+                        /* AUTOCOMPLETE TEXT FIELD PORTADOR */
+                        CustonWidget.getAutocCompleteTextFormField(
+                          context: context,
+                          suggestions: novoLancamentoController.portadores,
+                          hintText: 'Portador',
+                          prefixIcon: Icon(Icons.account_balance_rounded)
                         ),
                         SizedBox(height: 10),
 

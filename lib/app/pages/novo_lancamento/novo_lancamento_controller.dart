@@ -1,3 +1,4 @@
+import 'package:despesas_app/app/model/auto_complete_text_field_model.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -23,6 +24,12 @@ abstract class _NovoLancamentoController with Store {
     placeholder: '0',
     maxPlaceHolders: 3
   );
+
+  List<AutoCompleteTextFieldModel> portadores = [
+    AutoCompleteTextFieldModel(id: 1, nome: 'Nubank'),
+    AutoCompleteTextFieldModel(id: 2, nome: 'Clear Corretora'),
+    AutoCompleteTextFieldModel(id: 3, nome: 'Carteira'),
+  ];
 
   @observable
   bool _busy = false;

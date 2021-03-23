@@ -1,3 +1,5 @@
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:despesas_app/app/model/auto_complete_text_field_model.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -73,6 +75,54 @@ class CustonWidget {
       focusNode: focus,
       onEditingComplete: () => FocusScope.of(context).requestFocus(nextFocus),
       textCapitalization: textCapitalization,
+    );
+  }
+
+  /* AUTOCOMPLETE TEXT FORM FIELD */
+  static AutoCompleteTextField<AutoCompleteTextFieldModel> getAutocCompleteTextFormField({
+    @required BuildContext context,
+    @required List<AutoCompleteTextFieldModel> suggestions,
+    @required String hintText,
+    Icon prefixIcon,
+    FocusNode focus,
+    FocusNode nextFocus,
+    GlobalKey<AutoCompleteTextFieldState<AutoCompleteTextFieldModel>> key
+  }){
+    return AutoCompleteTextField<AutoCompleteTextFieldModel>(
+      key: key,
+      suggestions: suggestions,
+      focusNode: focus,
+      clearOnSubmit: false,
+      style: TextStyle(color: Colors.black87, fontSize: 16.0),
+      decoration: InputDecoration(
+        hintText: hintText,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),
+        prefixIcon: prefixIcon
+      ),
+      itemFilter: (item, query) {
+        return item.nome.toUpperCase().contains(query.toUpperCase());
+      },
+      itemSorter: (a, b) {
+        return a.nome.compareTo(b.nome);
+      },
+      itemSubmitted: (item) {
+        FocusScope.of(context).requestFocus(nextFocus);
+        /* model.animalId = item.id;
+        searchAnimaisTextField.textField.controller.text = item.nome.toString(); */
+      },
+      itemBuilder: (context, item) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              height: 50,
+              alignment: Alignment.center,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(item.nome, style: TextStyle(fontSize: 16.0)),
+            )
+          ],
+        );
+      },
     );
   }
 }
