@@ -52,13 +52,12 @@ abstract class _LoginController with Store {
   @computed
   bool get getWithErrorSenha => _withErrorSenha;
 
-  logar(BuildContext context) async {
+  logar(BuildContext context) {
     formKey.currentState.validate();
     if(!_withErrorEmail && !_withErrorSenha) {
       changeBusy();
-      await Future.delayed(Duration(seconds: 3));
       formKey.currentState.save();
-      if(loginModel.email == '@' && loginModel.senha == '@'){
+      if(loginModel.email == 'gutjahrfelipe@gmail.com' && loginModel.senha == '123456'){
         Modular.to.pushReplacementNamed('/home');
         changeBusy();
         if(!getObscurePassword){

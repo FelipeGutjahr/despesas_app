@@ -169,9 +169,9 @@ class BodyHomePage extends StatelessWidget {
         resultado == null ? Container(child: CircularProgressIndicator(), padding: EdgeInsets.all(10)) : Text(
           'R\$ ${resultado.toString()}',
           style: TextStyle(
-            color: resultado >= 0 ? Colors.green[300] : Colors.red[300],
+            color: resultado >= 0 ? Colors.green[400] : Colors.red[400],
             fontSize: MediaQuery.of(context).size.width * 0.05 < 38 ? 38 : MediaQuery.of(context).size.width * 0.05,
-            fontWeight: FontWeight.bold
+            fontWeight: FontWeight.bold,
           ),
         ),
       ],
@@ -194,7 +194,7 @@ class BodyHomePage extends StatelessWidget {
         recomendado == null ? Container(child: CircularProgressIndicator(), padding: EdgeInsets.all(10)) : Text(
           'R\$ ${recomendado.toString()}',
           style: TextStyle(
-            color: recomendado >= 0 ? Colors.blue[300] : Colors.red[300],
+            color: recomendado >= 0 ? Colors.blue[400] : Colors.red[400],
             fontSize: MediaQuery.of(context).size.width * 0.03 < 22 ? 22 : MediaQuery.of(context).size.width * 0.03,
             fontWeight: FontWeight.bold
           ),

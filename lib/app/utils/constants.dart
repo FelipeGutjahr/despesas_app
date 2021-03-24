@@ -1,6 +1,8 @@
 import 'package:despesas_app/app/model/auto_complete_text_field_model.dart';
 import 'package:despesas_app/app/model/plano_model.dart';
 
+const emailValidator = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
 /* listas de retorno para simular conexão com API */
 List<AutoCompleteTextFieldModel> retornoPortadores = [
   AutoCompleteTextFieldModel(id: 1, nome: 'Nubank'),

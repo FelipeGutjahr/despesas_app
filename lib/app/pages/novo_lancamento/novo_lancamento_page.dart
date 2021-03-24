@@ -42,9 +42,14 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     getForm(_width),
-                    CustonWidget.getElevatedButton(
-                      text: 'SALVAR', 
-                      onPressed: () => controller.salvar()
+                    Observer(
+                      builder: (_) {
+                        return CustonWidget.getElevatedButton(
+                          text: 'SALVAR', 
+                          onPressed: () => controller.salvar(),
+                          busy: controller.getBusy
+                        );
+                      },
                     )
                   ],
                 ),
@@ -142,7 +147,7 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
           CustonWidget.getAutocCompleteTextFormField(
             context: context,
             suggestions: controller.getPortadores,
-            hintText: 'Portador',
+            hintText: 'Conta de despesa',
             prefixIcon: Icon(Icons.account_balance_rounded),
             itemSubmitted: (item) => null
           ),

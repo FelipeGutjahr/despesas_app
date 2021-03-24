@@ -1,4 +1,6 @@
 import 'package:despesas_app/app/pages/login/login_controller.dart';
+import 'package:despesas_app/app/utils/constants.dart';
+import 'package:despesas_app/app/utils/custon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -25,16 +27,28 @@ class LoginPage extends StatelessWidget {
           body: Container(
             width: MediaQuery.of(context).size.width,
             child: Center(
-              child: Container(
-                width: 400,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('DESPESAS', style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold, color: Colors.white)),
-                    SizedBox(height: 20),
-                    getForm(context),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Bem-vindo ao aplicativo', 
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 48,
+                      color: Colors.white,
+                      shadows: [Shadow(
+                        blurRadius: 10,
+                        color: Colors.black54,
+                        offset: Offset(5, 5)
+                      )]
+                    )
+                  ),
+                  SizedBox(height: 50),
+                  Container(
+                    width: 425,
+                    child: getForm(context),
+                  )
+                ],
               ),
             )
           ),
@@ -52,12 +66,14 @@ class LoginPage extends StatelessWidget {
           getFieldEmail(context),
           SizedBox(height: 2),
           getEmailError(),
-          SizedBox(height: 20),
-          getFieldSenha(),
+          SizedBox(height: 10),
+          getFieldSenha(context),
           SizedBox(height: 2),
           getSenhaError(),
-          SizedBox(height: 20),
-          getBtnEntrar(context)
+          SizedBox(height: 30),
+          getBtnEntrar(context),
+          SizedBox(height: 10),
+          getBtnEsqueciSenha()
         ],
       ),
     );
@@ -69,35 +85,39 @@ class LoginPage extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         color: Colors.white,
-        borderRadius: BorderRadius.circular(32)
+        borderRadius: BorderRadius.circular(5)
       ),
       child: Observer(
         builder: (_){
-          return TextFormField(
-            enabled: !controller.getBusy,
-            focusNode: controller.emailFocus,
-            decoration: InputDecoration(
-              hintText: 'E-mail',
-              border: InputBorder.none,
-              prefixIcon: Icon(Icons.mail_outline)
+          return Theme(
+            data: Theme.of(context).copyWith(primaryColor: Colors.blue[800]),
+            child: TextFormField(
+              enabled: !controller.getBusy,
+              focusNode: controller.emailFocus,
+              decoration: InputDecoration(
+                hintText: 'E-mail',
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.mail_outline)
+              ),
+              cursorColor: Colors.blue[800],
+              textAlignVertical: TextAlignVertical.center,
+              onEditingComplete: () => FocusScope.of(context).requestFocus(controller.senhaFocus),
+              keyboardType: TextInputType.emailAddress,
+              onChanged: (value){
+                if(controller.getWithErrorEmail) {
+                  controller.changeWithErrorEmail();
+                }
+              },
+              validator: (value){
+                if((value.isEmpty || !RegExp(emailValidator).hasMatch(value)) && !controller.getWithErrorEmail){
+                  controller.changeWithErrorEmail();
+                }
+                return null;
+              },
+              onSaved: ((val){
+                controller.loginModel.email = val;
+              }),
             ),
-            textAlignVertical: TextAlignVertical.center,
-            onEditingComplete: () => FocusScope.of(context).requestFocus(controller.senhaFocus),
-            keyboardType: TextInputType.emailAddress,
-            onChanged: (value){
-              if(controller.getWithErrorEmail) {
-                controller.changeWithErrorEmail();
-              }
-            },
-            validator: (value){
-              if((value.isEmpty || !value.contains('@')) && !controller.getWithErrorEmail){
-                controller.changeWithErrorEmail();
-              }
-              return null;
-            },
-            onSaved: ((val){
-              controller.loginModel.email = val;
-            }),
           );
         },
       )
@@ -122,45 +142,49 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget getFieldSenha(){
+  Widget getFieldSenha(BuildContext context){
     return Container(
       height: 48,
       decoration: BoxDecoration(
         shape: BoxShape.rectangle,
         color: Colors.white,
-        borderRadius: BorderRadius.circular(32)
+        borderRadius: BorderRadius.circular(5)
       ),
       child: Observer(
         builder: (_){
-          return TextFormField(
-            enabled: !controller.getBusy,
-            focusNode: controller.senhaFocus,
-            obscureText: controller.getObscurePassword,
-            decoration: InputDecoration(
-              hintText: 'Senha',
-              border: InputBorder.none,
-              prefixIcon: Icon(Icons.lock_outline),
-              suffixIcon: IconButton(
-                icon: Icon(controller.getObscurePassword ? Icons.visibility : Icons.visibility_off),
-                onPressed: () => controller.changeObscurePassword()
-              )
+          return Theme(
+            data: Theme.of(context).copyWith(primaryColor: Colors.blue[800]),
+            child: TextFormField(
+              enabled: !controller.getBusy,
+              focusNode: controller.senhaFocus,
+              obscureText: controller.getObscurePassword,
+              cursorColor: Colors.blue[800],
+              decoration: InputDecoration(
+                hintText: 'Senha',
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.lock_outline),
+                suffixIcon: IconButton(
+                  icon: Icon(controller.getObscurePassword ? Icons.visibility : Icons.visibility_off),
+                  onPressed: () => controller.changeObscurePassword()
+                )
+              ),
+              textAlignVertical: TextAlignVertical.center,
+              keyboardType: TextInputType.visiblePassword,
+              onChanged: (value){
+                if(controller.getWithErrorSenha) {
+                  controller.changeWithErrorSenha();
+                }
+              },
+              validator: (value){
+                if(value.isEmpty && !controller.getWithErrorSenha){
+                  controller.changeWithErrorSenha();
+                }
+                return null;
+              },
+              onSaved: ((val){
+                controller.loginModel.senha = val;
+              }),
             ),
-            textAlignVertical: TextAlignVertical.center,
-            keyboardType: TextInputType.visiblePassword,
-            onChanged: (value){
-              if(controller.getWithErrorSenha) {
-                controller.changeWithErrorSenha();
-              }
-            },
-            validator: (value){
-              if(value.isEmpty && !controller.getWithErrorSenha){
-                controller.changeWithErrorSenha();
-              }
-              return null;
-            },
-            onSaved: ((val){
-              controller.loginModel.senha = val;
-            }),
           );
         }
       ),
@@ -185,19 +209,33 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget getBtnEntrar(BuildContext context){
-    return Container(
-      height: 48,
-      child: Observer(
-        builder: (_){
-          return ElevatedButton(
-            child: controller.getBusy
-              ? CircularProgressIndicator(valueColor: const AlwaysStoppedAnimation<Color>(Colors.white)) 
-              : Text('ENTRE'),
-            onPressed: () => controller.getBusy ? null : controller.logar(context)
-          );
-        },
+  Widget getBtnEntrar(BuildContext context) {
+    return Observer(
+      builder: (_) {
+        return CustonWidget.getElevatedButton(
+          text: 'Iniciar Sessão',
+          onPressed: () => controller.getBusy ? null : controller.logar(context),
+          busy: controller.getBusy
+        );
+      }
+    );
+  }
+
+  Widget getBtnEsqueciSenha() {
+    return TextButton(
+      child: Text(
+        'Esqueci minha senha',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: Colors.white,
+          shadows: [Shadow(
+            blurRadius: 10,
+            color: Colors.black54,
+            offset: Offset(5, 5)
+          )]
+        )
       ),
+      onPressed: null,
     );
   }
 }

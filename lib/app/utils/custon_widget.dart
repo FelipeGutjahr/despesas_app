@@ -126,15 +126,18 @@ class CustonWidget {
   static Widget getElevatedButton({
     @required String text,
     @required Function() onPressed,
+    @required bool busy
   }) {
     return Container(
       height: 48,
       width: double.infinity,
       child: ElevatedButton(
-        child: Text(text),
+        child: busy
+          ? CircularProgressIndicator(valueColor: const AlwaysStoppedAnimation<Color>(Colors.white)) 
+          : Text(text, style: TextStyle(color: Colors.white)),
         onPressed: onPressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+          backgroundColor: MaterialStateProperty.all(Colors.blue[800]),
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
           )
