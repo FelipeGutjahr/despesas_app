@@ -1,5 +1,6 @@
 import 'package:despesas_app/app/model/auto_complete_text_field_model.dart';
 import 'package:despesas_app/app/model/lancamento_model.dart';
+import 'package:despesas_app/app/utils/constants.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -9,6 +10,10 @@ part 'novo_lancamento_controller.g.dart';
 class NovoLancamentoController = _NovoLancamentoController with _$NovoLancamentoController;
 
 abstract class _NovoLancamentoController with Store {
+  
+  _NovoLancamentoController(){
+    findPortadores();
+  }
   
   final formKey = GlobalKey<FormState>();
   
@@ -30,12 +35,8 @@ abstract class _NovoLancamentoController with Store {
 
   LancamentoModel lancamentoModel = LancamentoModel();
 
-  List<AutoCompleteTextFieldModel> portadores = [
-    AutoCompleteTextFieldModel(id: 1, nome: 'Nubank'),
-    AutoCompleteTextFieldModel(id: 2, nome: 'Clear Corretora'),
-    AutoCompleteTextFieldModel(id: 3, nome: 'Carteira'),
-    AutoCompleteTextFieldModel(id: 4, nome: 'PicPay'),
-  ];
+  @observable
+  List<AutoCompleteTextFieldModel> _portadores = <AutoCompleteTextFieldModel>[];
 
   @observable
   bool _busy = false;
@@ -44,14 +45,30 @@ abstract class _NovoLancamentoController with Store {
   bool _receita = true;
 
   @action
+  void _setPortadores(List<dynamic> data) => _portadores = data;
+
+  @action
   void changeBusy() => _busy = !_busy;
 
   @action
   void changeReceita() => _receita = !_receita;
 
   @computed
+  List<AutoCompleteTextFieldModel> get getPortadores => _portadores;
+
+  @computed
   bool get getBusy => _busy;
 
   @computed
   bool get getReceita => _receita;
+
+  findPortadores() {
+    _setPortadores(retornoPortadores);
+  }
+
+  salvar() {
+    if(formKey.currentState.validate()){
+      //TODO: implementar código para salvar despesa/receita
+    }
+  }
 }

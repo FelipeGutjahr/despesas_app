@@ -41,10 +41,10 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    getForm(),
+                    getForm(_width),
                     CustonWidget.getElevatedButton(
                       text: 'SALVAR', 
-                      onPressed: () => print(controller.lancamentoModel.portador.id)
+                      onPressed: () => controller.salvar()
                     )
                   ],
                 ),
@@ -88,42 +88,63 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
     );
   }
 
-  Widget getForm() {
+  Widget getForm(double _width) {
     return Form(
+      key: controller.formKey,
       child: Column(
         children: [
-          
-          /* TEXT FIELD DATA */
-          CustonWidget.getTextFormField(
-            context: context,
-            hintText: 'Data',
-            prefixIcon: Icon(Icons.calendar_today),
-            keyboardType: TextInputType.number,
-            nextFocus: controller.valorFocus,
-            inputFormatters: controller.maskFormatterData,
-            initialValue: DateFormat("dd/MM/yyyy").format(controller.data)
+          Row(
+            children: [
+
+              /* TEXT FIELD DATA */
+              Expanded(
+                child: CustonWidget.getTextFormField(
+                  context: context,
+                  hintText: 'Data',
+                  prefixIcon: Icon(Icons.calendar_today),
+                  keyboardType: TextInputType.number,
+                  nextFocus: controller.valorFocus,
+                  inputFormatters: controller.maskFormatterData,
+                  initialValue: DateFormat("dd/MM/yyyy").format(controller.data),
+                  validator: true
+                ),
+              ),
+              SizedBox(width: 10),
+
+              /* TEXT FIELD VALOR */
+              Expanded(
+                child: CustonWidget.getTextFormField(
+                  context: context,
+                  hintText: 'Valor',
+                  prefixIcon: Icon(Icons.attach_money_rounded),
+                  keyboardType: TextInputType.number,
+                  nextFocus: controller.historicoFocus,
+                  focus: controller.valorFocus,
+                  inputFormatters: controller.maskFormatterValor,
+                  validator: true
+                ),
+              )
+            ],
           ),
           SizedBox(height: 10),
 
           /* AUTOCOMPLETE TEXT FIELD PORTADOR */
           CustonWidget.getAutocCompleteTextFormField(
             context: context,
-            suggestions: controller.portadores,
+            suggestions: controller.getPortadores,
             hintText: 'Portador',
             prefixIcon: Icon(Icons.account_balance_rounded),
             itemSubmitted: (item) => controller.lancamentoModel.portador = PortadorModel(id: item.id)
           ),
           SizedBox(height: 10),
 
-          /* TEXT FIELD VALOR */
-          CustonWidget.getTextFormField(
+          /* AUTOCOMPLETE TEXT FIELD CONTA RECEITA/DESPESA */
+          CustonWidget.getAutocCompleteTextFormField(
             context: context,
-            hintText: 'Valor',
-            prefixIcon: Icon(Icons.attach_money_rounded),
-            keyboardType: TextInputType.number,
-            nextFocus: controller.historicoFocus,
-            focus: controller.valorFocus,
-            inputFormatters: controller.maskFormatterValor
+            suggestions: controller.getPortadores,
+            hintText: 'Portador',
+            prefixIcon: Icon(Icons.account_balance_rounded),
+            itemSubmitted: (item) => null
           ),
           SizedBox(height: 10),
 
@@ -134,7 +155,8 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
             prefixIcon: Icon(Icons.history),
             keyboardType: TextInputType.number,
             focus: controller.historicoFocus,
-            maxLines: 3
+            maxLines: 3,
+            validator: true
           ),
         ],
       ),

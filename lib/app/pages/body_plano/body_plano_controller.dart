@@ -1,4 +1,5 @@
 import 'package:despesas_app/app/model/plano_model.dart';
+import 'package:despesas_app/app/utils/constants.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -14,17 +15,8 @@ abstract class _BodyPlanoController with Store {
   
   BehaviorSubject<List<PlanoModel>> contas = BehaviorSubject<List<PlanoModel>>();
 
-  List<PlanoModel> _contasRetornadas = [
-    PlanoModel(codContabil: '1', nome: 'ATIVO', dre: false),
-    PlanoModel(codContabil: '1.01', nome: 'ATIVO CIRCULANTE', dre: false),
-    PlanoModel(codContabil: '1.01.01', nome: 'ATIVO CIRCULANTE LIQUIDO', dre: false),
-    PlanoModel(codContabil: '1.01.01.01', nome: 'Clear Corretora', dre: false),
-    PlanoModel(codContabil: '1.01.01.02', nome: 'Nubank', dre: true),
-    PlanoModel(codContabil: '1.01.01.02', nome: 'Sicoob', dre: true)
-  ];
-
   findAll() async {
     await Future.delayed(Duration(seconds: 3));
-    contas.add(_contasRetornadas);
+    contas.add(retornoContasPlano);
   }
 }
