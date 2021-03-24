@@ -83,13 +83,17 @@ class CustonWidget {
     @required BuildContext context,
     @required List<AutoCompleteTextFieldModel> suggestions,
     @required String hintText,
+    @required Function(AutoCompleteTextFieldModel) itemSubmitted,
     Icon prefixIcon,
     FocusNode focus,
     FocusNode nextFocus,
-    GlobalKey<AutoCompleteTextFieldState<AutoCompleteTextFieldModel>> key
+    GlobalKey<AutoCompleteTextFieldState<AutoCompleteTextFieldModel>> key,
+    TextEditingController controller,
+    AutoCompleteTextField autoCompleteTextField
   }){
-    return AutoCompleteTextField<AutoCompleteTextFieldModel>(
+    autoCompleteTextField = AutoCompleteTextField<AutoCompleteTextFieldModel>(
       key: key,
+      controller: controller,
       suggestions: suggestions,
       focusNode: focus,
       clearOnSubmit: false,
@@ -99,20 +103,11 @@ class CustonWidget {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),
         prefixIcon: prefixIcon
       ),
-      itemFilter: (item, query) {
-        return item.nome.toUpperCase().contains(query.toUpperCase());
-      },
-      itemSorter: (a, b) {
-        return a.nome.compareTo(b.nome);
-      },
-      itemSubmitted: (item) {
-        FocusScope.of(context).requestFocus(nextFocus);
-        /* model.animalId = item.id;
-        searchAnimaisTextField.textField.controller.text = item.nome.toString(); */
-      },
+      itemFilter: (item, query) => item.nome.toUpperCase().contains(query.toUpperCase()),
+      itemSorter: (a, b) => a.nome.compareTo(b.nome),
+      itemSubmitted: itemSubmitted,
       itemBuilder: (context, item) {
         return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Container(
               height: 50,
@@ -123,6 +118,28 @@ class CustonWidget {
           ],
         );
       },
+    );
+    return autoCompleteTextField;
+  }
+
+  /* ELEVATED BUTTON */
+  static Widget getElevatedButton({
+    @required String text,
+    @required Function() onPressed,
+  }) {
+    return Container(
+      height: 48,
+      width: double.infinity,
+      child: ElevatedButton(
+        child: Text(text),
+        onPressed: onPressed,
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))
+          )
+        ),
+      ),
     );
   }
 }

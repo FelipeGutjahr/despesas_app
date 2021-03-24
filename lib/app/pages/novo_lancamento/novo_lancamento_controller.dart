@@ -1,4 +1,5 @@
 import 'package:despesas_app/app/model/auto_complete_text_field_model.dart';
+import 'package:despesas_app/app/model/lancamento_model.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -25,10 +26,15 @@ abstract class _NovoLancamentoController with Store {
     maxPlaceHolders: 3
   );
 
+  DateTime data = DateTime.now();
+
+  LancamentoModel lancamentoModel = LancamentoModel();
+
   List<AutoCompleteTextFieldModel> portadores = [
     AutoCompleteTextFieldModel(id: 1, nome: 'Nubank'),
     AutoCompleteTextFieldModel(id: 2, nome: 'Clear Corretora'),
     AutoCompleteTextFieldModel(id: 3, nome: 'Carteira'),
+    AutoCompleteTextFieldModel(id: 4, nome: 'PicPay'),
   ];
 
   @observable

@@ -1,9 +1,12 @@
+import 'package:despesas_app/app/model/portador_model.dart';
 import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_controller.dart';
 import 'package:despesas_app/app/utils/custon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 enum SingingCharacter { receber, pagar }
 
@@ -17,120 +20,123 @@ class NovoLancamentoPage extends StatefulWidget {
 
 class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
   
-  final novoLancamentoController = Modular.get<NovoLancamentoController>();
-
-  DateTime data = DateTime.now();
+  final controller = Modular.get<NovoLancamentoController>();
 
   @override
   Widget build(BuildContext context) {
+
+    double _width = MediaQuery.of(context).size.width;
+
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(5)
-        ),
-      ),
-      margin: EdgeInsets.all(8),
-      width: MediaQuery.of(context).size.width * 0.25 < 450 ? 450 : MediaQuery.of(context).size.width * 0.25,
+      // drawer irá ocupar 25% da tela, com tamanho minimo de 450 na versão WEB, 
+      // no Android irá ocupar toda a tela
+      width: kIsWeb ? _width * 0.25 < 450 ? 450 : _width * 0.25 : _width,
       child: Drawer(
         child: Column(
           children: [
-            Observer(
-              builder: (_){
-                return GestureDetector(
-                  onTap: novoLancamentoController.changeReceita,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(5)
-                      ),
-                      color: novoLancamentoController.getReceita ? Colors.green[100] : Colors.red[100],
-                    ),
-                    padding: EdgeInsets.all(8),
-                    alignment: Alignment.centerRight,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        novoLancamentoController.getReceita 
-                          ? Text('Nova receita', style: TextStyle(
-                              color: Colors.green[900],
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold
-                            )
-                          ) 
-                          : Text('Nova despesa', style: TextStyle(
-                              color: Colors.red[900],
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold
-                            )
-                          ),
-                        IconButton(
-                          icon: Icon(Icons.close),
-                          onPressed: () => Modular.to.pop(),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    child: Column(
-                      children: [
-                        /* TEXT FIELD DATA */
-                        CustonWidget.getTextFormField(
-                          context: context,
-                          hintText: 'Data',
-                          prefixIcon: Icon(Icons.calendar_today),
-                          keyboardType: TextInputType.number,
-                          nextFocus: novoLancamentoController.valorFocus,
-                          inputFormatters: novoLancamentoController.maskFormatterData,
-                          initialValue: DateFormat("dd/MM/yyyy").format(data)
-                        ),
-                        SizedBox(height: 10),
-
-                        /* AUTOCOMPLETE TEXT FIELD PORTADOR */
-                        CustonWidget.getAutocCompleteTextFormField(
-                          context: context,
-                          suggestions: novoLancamentoController.portadores,
-                          hintText: 'Portador',
-                          prefixIcon: Icon(Icons.account_balance_rounded)
-                        ),
-                        SizedBox(height: 10),
-
-                        /* TEXT FIELD VALOR */
-                        CustonWidget.getTextFormField(
-                          context: context,
-                          hintText: 'Valor',
-                          prefixIcon: Icon(Icons.attach_money_rounded),
-                          keyboardType: TextInputType.number,
-                          nextFocus: novoLancamentoController.historicoFocus,
-                          focus: novoLancamentoController.valorFocus,
-                          inputFormatters: novoLancamentoController.maskFormatterValor
-                        ),
-                        SizedBox(height: 10),
-
-                        /* TEXT FIELD HISTORICO  */
-                        CustonWidget.getTextFormField(
-                          context: context,
-                          hintText: 'Histórico',
-                          prefixIcon: Icon(Icons.history),
-                          keyboardType: TextInputType.number,
-                          focus: novoLancamentoController.historicoFocus,
-                          maxLines: 3
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            getTopContainer(),
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    getForm(),
+                    CustonWidget.getElevatedButton(
+                      text: 'SALVAR', 
+                      onPressed: () => print(controller.lancamentoModel.portador.id)
+                    )
+                  ],
+                ),
+              )
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget getTopContainer() {
+    return Observer(
+      builder: (_){
+        return GestureDetector(
+          onTap: controller.changeReceita,
+          child: Container(
+            color: controller.getReceita ? Colors.green[100] : Colors.red[100],
+            padding: EdgeInsets.all(8),
+            alignment: Alignment.centerRight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  controller.getReceita ? 'Nova receita' : 'Nova despesa',
+                  style: TextStyle(
+                    color: controller.getReceita ? Colors.green[900] : Colors.red[900],
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => Modular.to.pop(),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+
+  Widget getForm() {
+    return Form(
+      child: Column(
+        children: [
+          
+          /* TEXT FIELD DATA */
+          CustonWidget.getTextFormField(
+            context: context,
+            hintText: 'Data',
+            prefixIcon: Icon(Icons.calendar_today),
+            keyboardType: TextInputType.number,
+            nextFocus: controller.valorFocus,
+            inputFormatters: controller.maskFormatterData,
+            initialValue: DateFormat("dd/MM/yyyy").format(controller.data)
+          ),
+          SizedBox(height: 10),
+
+          /* AUTOCOMPLETE TEXT FIELD PORTADOR */
+          CustonWidget.getAutocCompleteTextFormField(
+            context: context,
+            suggestions: controller.portadores,
+            hintText: 'Portador',
+            prefixIcon: Icon(Icons.account_balance_rounded),
+            itemSubmitted: (item) => controller.lancamentoModel.portador = PortadorModel(id: item.id)
+          ),
+          SizedBox(height: 10),
+
+          /* TEXT FIELD VALOR */
+          CustonWidget.getTextFormField(
+            context: context,
+            hintText: 'Valor',
+            prefixIcon: Icon(Icons.attach_money_rounded),
+            keyboardType: TextInputType.number,
+            nextFocus: controller.historicoFocus,
+            focus: controller.valorFocus,
+            inputFormatters: controller.maskFormatterValor
+          ),
+          SizedBox(height: 10),
+
+          /* TEXT FIELD HISTORICO  */
+          CustonWidget.getTextFormField(
+            context: context,
+            hintText: 'Histórico',
+            prefixIcon: Icon(Icons.history),
+            keyboardType: TextInputType.number,
+            focus: controller.historicoFocus,
+            maxLines: 3
+          ),
+        ],
       ),
     );
   }

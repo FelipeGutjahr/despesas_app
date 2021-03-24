@@ -7,6 +7,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 class HomePage extends StatefulWidget {
 
   @override
@@ -28,7 +30,17 @@ class _HomePageState extends State<HomePage> {
       key: homeController.drawerKey,
       backgroundColor: Colors.white,
       appBar: getAppBar(),
-      endDrawer: NovoLancamentoPage(),
+      endDrawer: Padding(
+        padding: const EdgeInsets.all(8.0),
+        //para adicionar a borda circular no Drawer
+        child: Container(
+          padding: EdgeInsets.only(top: kIsWeb ? 0 : 20),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            child: NovoLancamentoPage()
+          ),
+        ),
+      ),
       body: Observer(
         builder: (_){
           return pages[homeController.getPageIndex];
