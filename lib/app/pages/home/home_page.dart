@@ -30,17 +30,7 @@ class _HomePageState extends State<HomePage> {
       key: homeController.drawerKey,
       backgroundColor: Colors.white,
       appBar: getAppBar(),
-      endDrawer: Padding(
-        padding: const EdgeInsets.all(8.0),
-        //para adicionar a borda circular no Drawer
-        child: Container(
-          padding: EdgeInsets.only(top: kIsWeb ? 0 : 20),
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            child: NovoLancamentoPage()
-          ),
-        ),
-      ),
+      endDrawer: getEndDrawer(),
       body: Observer(
         builder: (_){
           return pages[homeController.getPageIndex];
@@ -100,32 +90,50 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      actions: [
-        ElevatedButton(
-          onPressed: () => null,
-          style: ButtonStyle(
-            elevation: MaterialStateProperty.all(0),
-            backgroundColor: MaterialStateProperty.all(Colors.transparent)
-          ),
-          child: Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage('images/login_image.jpg')
-              )
-            ),
+      actions: getActions(),
+    );
+  }
+
+  List<Widget> getActions() {
+    return [
+      ElevatedButton(
+        onPressed: () => null,
+        style: ButtonStyle(
+          elevation: MaterialStateProperty.all(0),
+          backgroundColor: MaterialStateProperty.all(Colors.transparent)
+        ),
+        child: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage('images/login_image.jpg')
+            )
           ),
         ),
-        SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-        IconButton(
-          icon: Icon(Icons.add, color: Colors.blueAccent),
-          onPressed: () => homeController.drawerKey.currentState.openEndDrawer(),
+      ),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+      IconButton(
+        icon: Icon(Icons.add, color: Colors.blueAccent),
+        onPressed: () => homeController.drawerKey.currentState.openEndDrawer(),
+      ),
+      SizedBox(width: MediaQuery.of(context).size.width * 0.01),
+    ];
+  }
+
+  Widget getEndDrawer() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      //para adicionar a borda circular no Drawer
+      child: Container(
+        padding: EdgeInsets.only(top: kIsWeb ? 0 : 20),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          child: NovoLancamentoPage()
         ),
-        SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-      ],
+      ),
     );
   }
 }
