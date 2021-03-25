@@ -100,6 +100,7 @@ class BodyHomePage extends StatelessWidget {
     @required List<ItemCardModel> itens
   }){
     return Card(
+      elevation: 3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -122,26 +123,23 @@ class BodyHomePage extends StatelessWidget {
                   child: Text(title, style: TextStyle(color: textTitleColor, fontSize: 25)),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(itens == null ? 8 : 0),
                   child: itens == null ? Center(child: CircularProgressIndicator()) : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: itens.map((e) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          e.title,
-                          style: TextStyle(
-                            color: Colors.black54,
-                          ),
+                    children: itens.map((e) => ListTile(
+                      title: Text(
+                        e.title,
+                        style: TextStyle(
+                          color: Colors.black54,
                         ),
-                        Text(
-                          e.value,
-                          style: TextStyle(
-                            color: textValueColor,
-                            fontSize: 20
-                          ),
+                      ),
+                      subtitle: Text(
+                        e.value,
+                        style: TextStyle(
+                          color: textValueColor,
+                          fontSize: 20
                         ),
-                      ],
+                      ),
                     )).toList(),
                   ),
                 )

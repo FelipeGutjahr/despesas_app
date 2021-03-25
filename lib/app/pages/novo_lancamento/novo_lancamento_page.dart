@@ -99,6 +99,7 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
       child: Column(
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
               /* TEXT FIELD DATA */
@@ -146,8 +147,8 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
           /* AUTOCOMPLETE TEXT FIELD CONTA RECEITA/DESPESA */
           CustonWidget.getAutocCompleteTextFormField(
             context: context,
-            suggestions: controller.getPortadores,
-            hintText: 'Conta de despesa',
+            suggestions: controller.getContas,
+            hintText: 'Conta de receita/despesa',
             prefixIcon: Icon(Icons.account_balance_rounded),
             itemSubmitted: (item) => null
           ),

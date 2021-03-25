@@ -13,6 +13,7 @@ abstract class _NovoLancamentoController with Store {
   
   _NovoLancamentoController(){
     findPortadores();
+    findContas();
   }
   
   final formKey = GlobalKey<FormState>();
@@ -39,13 +40,19 @@ abstract class _NovoLancamentoController with Store {
   List<AutoCompleteTextFieldModel> _portadores = <AutoCompleteTextFieldModel>[];
 
   @observable
+  List<AutoCompleteTextFieldModel> _contas = <AutoCompleteTextFieldModel>[];
+
+  @observable
   bool _busy = false;
 
   @observable
   bool _receita = true;
 
   @action
-  void _setPortadores(List<dynamic> data) => _portadores = data;
+  void _setPortadores(List<AutoCompleteTextFieldModel> data) => _portadores = data;
+
+  @action
+  void _addConta(AutoCompleteTextFieldModel data) => _contas.add(data);
 
   @action
   void changeBusy() => _busy = !_busy;
@@ -57,6 +64,9 @@ abstract class _NovoLancamentoController with Store {
   List<AutoCompleteTextFieldModel> get getPortadores => _portadores;
 
   @computed
+  List<AutoCompleteTextFieldModel> get getContas => _contas;
+
+  @computed
   bool get getBusy => _busy;
 
   @computed
@@ -64,6 +74,10 @@ abstract class _NovoLancamentoController with Store {
 
   findPortadores() {
     _setPortadores(retornoPortadores);
+  }
+
+  findContas() {
+    retornoContasPlano.forEach((element) => _addConta(AutoCompleteTextFieldModel(id: element.id, nome: element.nome)));
   }
 
   salvar() {
