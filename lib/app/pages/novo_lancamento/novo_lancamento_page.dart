@@ -35,29 +35,37 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
         child: Column(
           children: [
             getTopContainer(),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    getForm(_width),
-                    Observer(
-                      builder: (_) {
-                        return CustonWidget.getElevatedButton(
-                          text: 'SALVAR', 
-                          onPressed: () => controller.salvar(),
-                          busy: controller.getBusy
-                        );
-                      },
-                    )
-                  ],
-                ),
-              )
-            ),
+            getBodyDrawer(_width)
           ],
         ),
       ),
+    );
+  }
+
+  Widget getBodyDrawer(double _width){
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            getForm(_width),
+            getBtnSalvar()
+          ],
+        ),
+      )
+    );
+  }
+
+  Widget getBtnSalvar(){
+    return Observer(
+      builder: (_) {
+        return CustonWidget.getElevatedButton(
+          text: 'SALVAR', 
+          onPressed: () => controller.salvar(),
+          busy: controller.getBusy
+        );
+      },
     );
   }
 
@@ -159,7 +167,6 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
             context: context,
             hintText: 'Histórico',
             prefixIcon: Icon(Icons.history),
-            keyboardType: TextInputType.number,
             focus: controller.historicoFocus,
             maxLines: 3,
             validator: true
