@@ -28,9 +28,9 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
     double _width = MediaQuery.of(context).size.width;
 
     return Container(
-      // drawer irá ocupar 25% da tela, com tamanho minimo de 450 na versão WEB, 
+      // drawer irá ocupar 25% da tela, com tamanho minimo de 400 na versão WEB, 
       // no Android irá ocupar toda a tela
-      width: kIsWeb ? _width * 0.25 < 450 ? 450 : _width * 0.25 : _width,
+      width: kIsWeb ? _width * 0.25 < 400 ? 400 : _width * 0.25 : _width,
       child: Drawer(
         child: Column(
           children: [
