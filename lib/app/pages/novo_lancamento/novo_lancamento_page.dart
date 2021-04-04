@@ -22,6 +22,9 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
   
   final controller = Modular.get<NovoLancamentoController>();
 
+  TextEditingController portadorController = TextEditingController();
+  TextEditingController planoController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -62,7 +65,7 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
       builder: (_) {
         return CustonWidget.getElevatedButton(
           text: 'SALVAR', 
-          onPressed: () => controller.salvar(),
+          onPressed: () => print(controller.lancamentoModel.portador.nome),
           busy: controller.getBusy
         );
       },
@@ -143,22 +146,30 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
           SizedBox(height: 10),
 
           /* AUTOCOMPLETE TEXT FIELD PORTADOR */
-          CustonWidget.getAutocCompleteTextFormField(
+          CustonWidget.getAutocCompleteTextFormFieldPortador(
             context: context,
             suggestions: controller.getPortadores,
             hintText: 'Portador',
             prefixIcon: Icon(Icons.account_balance_rounded),
-            itemSubmitted: (item) => controller.lancamentoModel.portador = PortadorModel(id: item.id)
+            itemSubmitted: (item) {
+              portadorController.text = item.nome;
+              controller.lancamentoModel.portador = item;
+            },
+            controller: portadorController
           ),
           SizedBox(height: 10),
 
-          /* AUTOCOMPLETE TEXT FIELD CONTA RECEITA/DESPESA */
-          CustonWidget.getAutocCompleteTextFormField(
+          /* AUTOCOMPLETE TEXT FIELD CONTRAPARTIDA */
+          CustonWidget.getAutocCompleteTextFormFieldPlano(
             context: context,
             suggestions: controller.getContas,
-            hintText: 'Conta de receita/despesa',
+            hintText: 'Contrapartida',
             prefixIcon: Icon(Icons.account_balance_rounded),
-            itemSubmitted: (item) => null
+            itemSubmitted: (item) {
+              planoController.text = item.nome;
+              controller.lancamentoModel.plano = item;
+            },
+            controller: planoController
           ),
           SizedBox(height: 10),
 

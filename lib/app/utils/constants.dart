@@ -1,14 +1,14 @@
-import 'package:despesas_app/app/model/auto_complete_text_field_model.dart';
 import 'package:despesas_app/app/model/plano_model.dart';
+import 'package:despesas_app/app/model/portador_model.dart';
 
 const emailValidator = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
 
 /* listas de retorno para simular conexão com API */
-List<AutoCompleteTextFieldModel> retornoPortadores = [
-  AutoCompleteTextFieldModel(id: 1, nome: 'Nubank'),
-  AutoCompleteTextFieldModel(id: 2, nome: 'Clear Corretora'),
-  AutoCompleteTextFieldModel(id: 3, nome: 'Carteira'),
-  AutoCompleteTextFieldModel(id: 4, nome: 'PicPay'),
+List<PortadorModel> retornoPortadores = [
+  PortadorModel(id: 1, nome: 'Nubank', credito: true, limite: 6000.0),
+  PortadorModel(id: 2, nome: 'Clear Corretora', credito: false, limite: 0.0),
+  PortadorModel(id: 3, nome: 'Carteira', credito: false, limite: 0.0),
+  PortadorModel(id: 4, nome: 'PicPay', credito: false, limite: 0.0),
 ];
 
 List<PlanoModel> retornoContasPlano = [

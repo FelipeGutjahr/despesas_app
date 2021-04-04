@@ -1,5 +1,7 @@
 import 'package:despesas_app/app/model/auto_complete_text_field_model.dart';
 import 'package:despesas_app/app/model/lancamento_model.dart';
+import 'package:despesas_app/app/model/plano_model.dart';
+import 'package:despesas_app/app/model/portador_model.dart';
 import 'package:despesas_app/app/utils/constants.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
@@ -37,10 +39,10 @@ abstract class _NovoLancamentoController with Store {
   LancamentoModel lancamentoModel = LancamentoModel();
 
   @observable
-  List<AutoCompleteTextFieldModel> _portadores = <AutoCompleteTextFieldModel>[];
+  List<PortadorModel> _portadores = <PortadorModel>[];
 
   @observable
-  List<AutoCompleteTextFieldModel> _contas = <AutoCompleteTextFieldModel>[];
+  List<PlanoModel> _contas = <PlanoModel>[];
 
   @observable
   bool _busy = false;
@@ -49,10 +51,10 @@ abstract class _NovoLancamentoController with Store {
   bool _receita = true;
 
   @action
-  void _setPortadores(List<AutoCompleteTextFieldModel> data) => _portadores = data;
+  void _setPortadores(List<PortadorModel> data) => _portadores = data;
 
   @action
-  void _addConta(AutoCompleteTextFieldModel data) => _contas.add(data);
+  void _setPlanos(List<PlanoModel> data) => _contas = data;
 
   @action
   void changeBusy() => _busy = !_busy;
@@ -61,10 +63,10 @@ abstract class _NovoLancamentoController with Store {
   void changeReceita() => _receita = !_receita;
 
   @computed
-  List<AutoCompleteTextFieldModel> get getPortadores => _portadores;
+  List<PortadorModel> get getPortadores => _portadores;
 
   @computed
-  List<AutoCompleteTextFieldModel> get getContas => _contas;
+  List<PlanoModel> get getContas => _contas;
 
   @computed
   bool get getBusy => _busy;
@@ -77,7 +79,7 @@ abstract class _NovoLancamentoController with Store {
   }
 
   findContas() {
-    retornoContasPlano.forEach((element) => _addConta(AutoCompleteTextFieldModel(id: element.id, nome: element.nome)));
+    _setPlanos(retornoContasPlano);
   }
 
   salvar() {
