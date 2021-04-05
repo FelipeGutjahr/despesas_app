@@ -1,5 +1,4 @@
 import 'package:autocomplete_textfield/autocomplete_textfield.dart';
-import 'package:despesas_app/app/model/auto_complete_text_field_model.dart';
 import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:despesas_app/app/model/portador_model.dart';
 import 'package:easy_mask/easy_mask.dart';

@@ -7,17 +7,6 @@ class AppWidget extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      /* theme: ThemeData(
-        //Estilo do ElevatedButton
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(32))
-            ),
-            backgroundColor: MaterialStateProperty.all(Colors.blueAccent)
-          )
-        ),
-      ), */
       title: 'Despesas App',
       initialRoute: '/home',
     ).modular();

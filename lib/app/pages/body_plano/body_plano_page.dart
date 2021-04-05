@@ -114,13 +114,13 @@ class BodyPlanoPage extends StatelessWidget {
                   flex: 7,
                   child: Text(e.nome),
                 ),
-                Expanded(
+                /* Expanded(
                   flex: 1,
                   child: Container(
                     alignment: Alignment.centerRight,
                     child: Text(e.dre ? 'SIM' : 'NÃO')
                   ),
-                )
+                ) */
               ],
             )
           ],

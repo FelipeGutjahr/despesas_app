@@ -1,4 +1,7 @@
 import 'package:despesas_app/app/model/item_card_model.dart';
+import 'package:despesas_app/app/model/portador_model.dart';
+import 'package:despesas_app/app/services/portador_service.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -7,6 +10,8 @@ part 'body_home_controller.g.dart';
  class BodyHomeController = _BodyHomeController with _$BodyHomeController;
 
  abstract class _BodyHomeController with Store {
+
+   final service = Modular.get<PortadorService>();
 
   _BodyHomeController(){
     findAll();
@@ -34,20 +39,18 @@ part 'body_home_controller.g.dart';
     ItemCardModel(title: 'Este mês', value: 'R\$ 1782,19')
   ];
 
-  List<ItemCardModel> portadoresList = [
-    ItemCardModel(title: 'PicPay', value: 'R\$ 100,15'),
-    ItemCardModel(title: 'Nubank', value: 'R\$ 231,03'),
-    ItemCardModel(title: 'Clear corretora', value: 'R\$ 150,72'),
-    ItemCardModel(title: 'Carteira', value: 'R\$ 20,00'),
-    ItemCardModel(title: 'Total', value: 'R\$ 501,09')
-  ];
-
-  findAll() async {
-    await Future.delayed(Duration(seconds: 3));
+  findAll() {
     resultadoMensal.add(750.16);
     gastoRecomendado.add(62.51);
     totalPago.add(pago);
     totalRecebido.add(recebido);
-    portadores.add(portadoresList);
+    findPortadores();
+  }
+
+  findPortadores() async {
+    List<PortadorModel> list = await service.findAll();
+    List<ItemCardModel> listItemCardModel = <ItemCardModel>[];
+    list.forEach((element) => listItemCardModel.add(element.toItemCardModel()));
+    portadores.add(listItemCardModel);
   }
 }

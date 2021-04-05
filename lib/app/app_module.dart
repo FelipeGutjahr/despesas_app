@@ -6,6 +6,10 @@ import 'package:despesas_app/app/pages/home/home_page.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
 import 'package:despesas_app/app/pages/login/login_page.dart';
 import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_controller.dart';
+import 'package:despesas_app/app/services/auth_service.dart';
+import 'package:despesas_app/app/services/portador_service.dart';
+import 'package:despesas_app/app/utils/constants.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppModule extends Module {
@@ -18,6 +22,9 @@ class AppModule extends Module {
     Bind((i) => HomeController()),
     Bind((i) => BodyHomeController()),
     Bind((i) => BodyPlanoController()),
+    Bind((i) => AuthService(i.get())),
+    Bind((i) => PortadorService(i.get())),
+    Bind((i) => Dio(BaseOptions(baseUrl: BASE_URL))),
   ];
 
   //rotas nomeadas

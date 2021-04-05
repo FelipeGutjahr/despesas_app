@@ -1,4 +1,5 @@
 import 'package:despesas_app/app/model/login_model.dart';
+import 'package:despesas_app/app/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -8,6 +9,8 @@ part 'login_controller.g.dart';
 class LoginController = _LoginController with _$LoginController;
 
 abstract class _LoginController with Store {
+
+  final service = Modular.get<AuthService>();
   
   final formKey = GlobalKey<FormState>();
   
@@ -52,20 +55,16 @@ abstract class _LoginController with Store {
   @computed
   bool get getWithErrorSenha => _withErrorSenha;
 
-  logar(BuildContext context) {
+  logar(BuildContext context) async {
     formKey.currentState.validate();
     if(!_withErrorEmail && !_withErrorSenha) {
       changeBusy();
       formKey.currentState.save();
-      if(loginModel.email == 'gutjahrfelipe@gmail.com' && loginModel.senha == '123456'){
-        Modular.to.pushReplacementNamed('/home');
+      await service.login(loginModel).then((value) => Modular.to.pushReplacementNamed('/home')).catchError((error){
         changeBusy();
-        if(!getObscurePassword){
-          changeObscurePassword();
-        }
-      } else {
-        changeBusy();
-      }
+        print('ERRO AO FAZER LOGIN: ${error.toString()}');
+        //TODO: implementar tratamento de erro
+      });
     }
   }
 }
