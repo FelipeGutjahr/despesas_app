@@ -1,11 +1,8 @@
-import 'dart:html';
-
 import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_controller.dart';
 import 'package:despesas_app/app/utils/custon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:intl/intl.dart';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -26,11 +23,11 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
   TextEditingController portadorController = TextEditingController();
   TextEditingController planoController = TextEditingController();
 
-  @override
+  /* @override
   void initState() {
     controller.valorFocus.requestFocus();
     super.initState();
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +136,7 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
       keyboardType: TextInputType.number,
       nextFocus: controller.valorFocus,
       inputFormatters: controller.maskFormatterData,
-      initialValue: DateFormat("dd/MM/yyyy").format(controller.data),
+      /* initialValue: DateFormat("dd/MM/yyyy").format(controller.data), */
       validator: (value){
         if(value.isEmpty || value.length < 10) return 'Data inválida';
       },
@@ -168,16 +165,20 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
   }
 
   Widget getFieldPortador(){
-    return CustonWidget.getAutocCompleteTextFormFieldPortador(
-      context: context,
-      suggestions: controller.getPortadores,
-      hintText: 'Portador',
-      prefixIcon: Icon(Icons.account_balance_rounded),
-      itemSubmitted: (item) {
-        portadorController.text = item.nome;
-        controller.getReceita ? controller.lancamentoModel.planoDebito = item.plano : controller.lancamentoModel.planoCredito = item.plano;
-      },
-      controller: portadorController
+    return Observer(
+      builder: (_){
+        return CustonWidget.getAutocCompleteTextFormFieldPortador(
+          context: context,
+          suggestions: controller.getPortadores,
+          hintText: 'Portador',
+          prefixIcon: Icon(Icons.account_balance_rounded),
+          itemSubmitted: (item) {
+            portadorController.text = item.nome;
+            controller.getReceita ? controller.lancamentoModel.planoDebito = item.plano : controller.lancamentoModel.planoCredito = item.plano;
+          },
+          controller: portadorController
+        );
+      }
     );
   }
 

@@ -1,4 +1,3 @@
-import 'package:despesas_app/app/model/item_card_model.dart';
 import 'package:despesas_app/app/model/plano_model.dart';
 
 class PortadorModel {
@@ -13,7 +12,7 @@ class PortadorModel {
   PortadorModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
-    plano = json['plano'] != null ? new PlanoModel.fromJson(json['plano']) : null;
+    plano = PlanoModel.fromJson(json['plano']);
   }
 
   Map<String, dynamic> toJson() {
@@ -24,12 +23,5 @@ class PortadorModel {
       data['plano'] = this.plano.toJson();
     }
     return data;
-  }
-
-  ItemCardModel toItemCardModel() {
-    final ItemCardModel itemCardModel = ItemCardModel();
-    itemCardModel.title = this.nome;
-    itemCardModel.value = 'R\$ ${this.plano.saldoAtual.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',')}';
-    return itemCardModel;
   }
 }

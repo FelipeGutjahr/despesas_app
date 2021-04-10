@@ -2,7 +2,8 @@ import 'package:despesas_app/app/model/lancamento_model.dart';
 import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:despesas_app/app/model/portador_model.dart';
 import 'package:despesas_app/app/services/lancamento_service.dart';
-import 'package:despesas_app/app/utils/constants.dart';
+import 'package:despesas_app/app/services/plano_service.dart';
+import 'package:despesas_app/app/services/portador_service.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -14,7 +15,11 @@ class NovoLancamentoController = _NovoLancamentoController with _$NovoLancamento
 
 abstract class _NovoLancamentoController with Store {
 
-  final service = Modular.get<LancamentoService>();
+  final lancamentoService = Modular.get<LancamentoService>();
+
+  final portadorService = Modular.get<PortadorService>();
+
+  final planoService = Modular.get<PlanoService>();
   
   _NovoLancamentoController(){
     findPortadores();
@@ -41,7 +46,7 @@ abstract class _NovoLancamentoController with Store {
     mask: '9+9'
   );
 
-  DateTime data = DateTime.now();
+  /* DateTime data = DateTime.now(); */
 
   LancamentoModel lancamentoModel = LancamentoModel(isCredito: false, isParcelado: false, qtdParcelas: 0);
 
@@ -134,18 +139,20 @@ abstract class _NovoLancamentoController with Store {
     else return null;
   }
 
-  findPortadores() {
-    _setPortadores(retornoPortadores);
+  findPortadores() async {
+    List<PortadorModel> list = await portadorService.findAll();
+    _setPortadores(list);
   }
 
-  findContas() {
-    _setPlanos(retornoContasPlano);
+  findContas() async {
+    List<PlanoModel> list = await planoService.findAll();
+    _setPlanos(list);
   }
 
   salvar() {
     formKey.currentState.save();
     if(formKey.currentState.validate()){
-      service.salvar(lancamentoModel);
+      lancamentoService.salvar(lancamentoModel);
     }
   }
 }

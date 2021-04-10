@@ -15,7 +15,6 @@ class PlanoModel {
     this.id = json['id'];
     this.codContabil = json['cod_contabil'];
     this.nome = json['nome'];
-    this.saldoAtual = json['saldoAtual'];
   }
 
   Map<String, dynamic> toJson() {

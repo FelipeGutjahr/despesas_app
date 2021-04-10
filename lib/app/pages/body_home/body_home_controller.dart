@@ -1,5 +1,4 @@
 import 'package:despesas_app/app/model/item_card_model.dart';
-import 'package:despesas_app/app/model/portador_model.dart';
 import 'package:despesas_app/app/services/home_service.dart';
 import 'package:despesas_app/app/services/portador_service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -37,18 +36,6 @@ part 'body_home_controller.g.dart';
     findTotalRecebido();
     findTotalPago();
     findSaldoPortadores();
-  }
-
-  findPortadores() async {
-    List<PortadorModel> list = await portadorService.findAll();
-    List<ItemCardModel> listItemCardModel = <ItemCardModel>[];
-    double total = 0;
-    list.forEach((element) {
-      listItemCardModel.add(element.toItemCardModel());
-      total = total + element.plano.saldoAtual;
-    });
-    //listItemCardModel.add(ItemCardModel(title: 'Total', value: 'R\$ ${total.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',')}'));
-    portadores.add(listItemCardModel);
   }
 
   findTotalPago() async {
