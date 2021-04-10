@@ -1,9 +1,11 @@
 import 'package:despesas_app/app/model/lancamento_model.dart';
 import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:despesas_app/app/model/portador_model.dart';
+import 'package:despesas_app/app/services/lancamento_service.dart';
 import 'package:despesas_app/app/utils/constants.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
 part 'novo_lancamento_controller.g.dart';
@@ -11,6 +13,8 @@ part 'novo_lancamento_controller.g.dart';
 class NovoLancamentoController = _NovoLancamentoController with _$NovoLancamentoController;
 
 abstract class _NovoLancamentoController with Store {
+
+  final service = Modular.get<LancamentoService>();
   
   _NovoLancamentoController(){
     findPortadores();
@@ -33,9 +37,13 @@ abstract class _NovoLancamentoController with Store {
     maxPlaceHolders: 3
   );
 
+  var makFormaterParcelas = TextInputMask(
+    mask: '9+9'
+  );
+
   DateTime data = DateTime.now();
 
-  LancamentoModel lancamentoModel = LancamentoModel();
+  LancamentoModel lancamentoModel = LancamentoModel(isCredito: false, isParcelado: false, qtdParcelas: 0);
 
   @observable
   List<PortadorModel> _portadores = <PortadorModel>[];
@@ -47,7 +55,19 @@ abstract class _NovoLancamentoController with Store {
   bool _busy = false;
 
   @observable
-  bool _receita = true;
+  bool _receita = false;
+
+  @observable
+  bool _isCredito = false;
+
+  @observable
+  bool _isParcelado = false;
+
+  @observable
+  int _qtdParcelas = 0;
+
+  @observable
+  double _valor = 0;
 
   @action
   void _setPortadores(List<PortadorModel> data) => _portadores = data;
@@ -61,6 +81,32 @@ abstract class _NovoLancamentoController with Store {
   @action
   void changeReceita() => _receita = !_receita;
 
+  @action
+  void changeisCredito() {
+    if(getIsParcelado) changeIsParcelado();
+    _isCredito = !_isCredito;
+    lancamentoModel.isCredito = _isCredito;
+  }
+  
+  @action
+  void changeIsParcelado() {
+    setQtdParcelas('0');
+    _isParcelado = !_isParcelado;
+    lancamentoModel.isParcelado = _isParcelado;
+  }
+
+  @action
+  void setQtdParcelas(String parcelas) {
+    parcelas == null || parcelas == '' ? _qtdParcelas = 0 : _qtdParcelas = int.parse(parcelas);
+    lancamentoModel.qtdParcelas = _qtdParcelas;
+  }
+
+  @action
+  void setValor(String valor) {
+    valor == null ? _valor = 0 : _valor = double.parse(valor.replaceAll(RegExp(r'\.'), '').replaceAll(RegExp(r','), '.'));
+    lancamentoModel.valor = _valor;
+  }
+
   @computed
   List<PortadorModel> get getPortadores => _portadores;
 
@@ -73,6 +119,21 @@ abstract class _NovoLancamentoController with Store {
   @computed
   bool get getReceita => _receita;
 
+  @computed
+  bool get getIsCredito => _isCredito;
+
+  @computed
+  bool get getIsParcelado => _isParcelado;
+
+  @computed
+  int get getQtdParcelas => _qtdParcelas;
+
+  @computed
+  String get getResultadoParcelas {
+    if(_valor != 0 && _qtdParcelas != 0) return (_valor/_qtdParcelas).toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',');
+    else return null;
+  }
+
   findPortadores() {
     _setPortadores(retornoPortadores);
   }
@@ -82,8 +143,9 @@ abstract class _NovoLancamentoController with Store {
   }
 
   salvar() {
+    formKey.currentState.save();
     if(formKey.currentState.validate()){
-      //TODO: implementar código para salvar despesa/receita
+      service.salvar(lancamentoModel);
     }
   }
 }

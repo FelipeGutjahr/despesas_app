@@ -1,5 +1,6 @@
 import 'package:despesas_app/app/model/item_card_model.dart';
 import 'package:despesas_app/app/model/portador_model.dart';
+import 'package:despesas_app/app/services/home_service.dart';
 import 'package:despesas_app/app/services/portador_service.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -11,7 +12,8 @@ part 'body_home_controller.g.dart';
 
  abstract class _BodyHomeController with Store {
 
-   final service = Modular.get<PortadorService>();
+  final portadorService = Modular.get<PortadorService>();
+  final homeService = Modular.get<HomeService>();
 
   _BodyHomeController(){
     findAll();
@@ -29,28 +31,38 @@ part 'body_home_controller.g.dart';
   Stream<List<ItemCardModel>> get getTotalRecebido => totalRecebido.stream;
   Stream<List<ItemCardModel>> get getPortadores => portadores.stream;
 
-  List<ItemCardModel> pago = [
-    ItemCardModel(title: 'Hoje', value: 'R\$ 15,00'),
-    ItemCardModel(title: 'Este mês', value: 'R\$ 1.032,03')
-  ];
-
-  List<ItemCardModel> recebido = [
-    ItemCardModel(title: 'Hoje', value: 'R\$ 0,00'),
-    ItemCardModel(title: 'Este mês', value: 'R\$ 1782,19')
-  ];
-
   findAll() {
     resultadoMensal.add(750.16);
     gastoRecomendado.add(62.51);
-    totalPago.add(pago);
-    totalRecebido.add(recebido);
-    findPortadores();
+    findTotalRecebido();
+    findTotalPago();
+    findSaldoPortadores();
   }
 
   findPortadores() async {
-    List<PortadorModel> list = await service.findAll();
+    List<PortadorModel> list = await portadorService.findAll();
     List<ItemCardModel> listItemCardModel = <ItemCardModel>[];
-    list.forEach((element) => listItemCardModel.add(element.toItemCardModel()));
+    double total = 0;
+    list.forEach((element) {
+      listItemCardModel.add(element.toItemCardModel());
+      total = total + element.plano.saldoAtual;
+    });
+    //listItemCardModel.add(ItemCardModel(title: 'Total', value: 'R\$ ${total.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',')}'));
     portadores.add(listItemCardModel);
+  }
+
+  findTotalPago() async {
+    List<ItemCardModel> list = await homeService.findTotalPago();
+    totalPago.add(list);
+  }
+
+  findTotalRecebido() async {
+    List<ItemCardModel> list = await homeService.findTotalRecebido();
+    totalRecebido.add(list);
+  }
+
+  findSaldoPortadores() async {
+    List<ItemCardModel> list = await homeService.findSaldoPortadores();
+    portadores.add(list);
   }
 }

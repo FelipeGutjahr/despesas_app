@@ -29,7 +29,7 @@ class PortadorModel {
   ItemCardModel toItemCardModel() {
     final ItemCardModel itemCardModel = ItemCardModel();
     itemCardModel.title = this.nome;
-    itemCardModel.value = 'R\$ ${this.plano.saldoAtual.toString()}';
+    itemCardModel.value = 'R\$ ${this.plano.saldoAtual.toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',')}';
     return itemCardModel;
   }
 }

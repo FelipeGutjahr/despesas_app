@@ -1,4 +1,5 @@
-import 'package:despesas_app/app/model/portador_model.dart';
+import 'dart:html';
+
 import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_controller.dart';
 import 'package:despesas_app/app/utils/custon_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,12 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
 
   TextEditingController portadorController = TextEditingController();
   TextEditingController planoController = TextEditingController();
+
+  @override
+  void initState() {
+    controller.valorFocus.requestFocus();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,15 +67,35 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
     );
   }
 
-  Widget getBtnSalvar(){
-    return Observer(
-      builder: (_) {
-        return CustonWidget.getElevatedButton(
-          text: 'SALVAR', 
-          onPressed: () => print(controller.lancamentoModel.portador.nome),
-          busy: controller.getBusy
-        );
-      },
+  Widget getForm(double _width) {
+    return Form(
+      key: controller.formKey,
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: getFieldData()
+              ),
+              SizedBox(width: 10),
+              Expanded(
+                child: getFieldValor()
+              )
+            ],
+          ),
+          SizedBox(height: 10),
+          getFieldPortador(),
+          Observer(
+            builder: (_){
+              return controller.getReceita ? SizedBox(height: 10) : getCreditoForm();
+            },
+          ),
+          getFieldContrapartida(),
+          SizedBox(height: 10),
+          getFieldHistorico()
+        ],
+      ),
     );
   }
 
@@ -104,83 +131,175 @@ class _NovoLancamentoPageState extends State<NovoLancamentoPage> {
     );
   }
 
-  Widget getForm(double _width) {
-    return Form(
-      key: controller.formKey,
+  Widget getFieldData(){
+    return CustonWidget.getTextFormField(
+      context: context,
+      hintText: 'Data',
+      prefixIcon: Icon(Icons.calendar_today),
+      keyboardType: TextInputType.number,
+      nextFocus: controller.valorFocus,
+      inputFormatters: controller.maskFormatterData,
+      initialValue: DateFormat("dd/MM/yyyy").format(controller.data),
+      validator: (value){
+        if(value.isEmpty || value.length < 10) return 'Data inválida';
+      },
+      onSaved: (value) {
+        var formattedDate = value.split('/');
+        DateTime data = new DateTime.utc(int.parse(formattedDate[2]), int.parse(formattedDate[1]), int.parse(formattedDate[0]));
+        controller.lancamentoModel.data = data;
+      }
+    );
+  }
+
+  Widget getFieldValor(){
+    return CustonWidget.getTextFormField(
+      context: context,
+      hintText: 'Valor',
+      prefixIcon: Icon(Icons.attach_money_rounded),
+      keyboardType: TextInputType.number,
+      nextFocus: controller.historicoFocus,
+      focus: controller.valorFocus,
+      validator: (value){
+        if(value.isEmpty) return 'Informe o valor';
+      },
+      inputFormatters: controller.maskFormatterValor,
+      onChanged: (value) => controller.setValor(value)
+    );
+  }
+
+  Widget getFieldPortador(){
+    return CustonWidget.getAutocCompleteTextFormFieldPortador(
+      context: context,
+      suggestions: controller.getPortadores,
+      hintText: 'Portador',
+      prefixIcon: Icon(Icons.account_balance_rounded),
+      itemSubmitted: (item) {
+        portadorController.text = item.nome;
+        controller.getReceita ? controller.lancamentoModel.planoDebito = item.plano : controller.lancamentoModel.planoCredito = item.plano;
+      },
+      controller: portadorController
+    );
+  }
+
+  Widget getFieldContrapartida(){
+    return CustonWidget.getAutocCompleteTextFormFieldPlano(
+      context: context,
+      suggestions: controller.getContas,
+      hintText: 'Contrapartida',
+      prefixIcon: Icon(Icons.account_balance_rounded),
+      itemSubmitted: (item) {
+        planoController.text = item.nome;
+        controller.getReceita ? controller.lancamentoModel.planoCredito = item : controller.lancamentoModel.planoDebito = item;
+      },
+      controller: planoController
+    );
+  }
+
+  Widget getFieldHistorico(){
+    return CustonWidget.getTextFormField(
+      context: context,
+      hintText: 'Histórico',
+      prefixIcon: Icon(Icons.history),
+      focus: controller.historicoFocus,
+      maxLines: 3,
+      validator: (value){
+        if(value.isEmpty) return 'Informe o histórico';
+      },
+      onSaved: (value) => controller.lancamentoModel.historico = value
+    );
+  }
+
+  Widget getCreditoForm(){
+    return Column(
+      children: [
+        getCheckBoxIsCredito(),
+        Observer(
+          builder: (_){
+            return controller.getIsCredito ?  getCheckBoxIsParcelado() : Container(height: 0.0, width: 0.0);
+          },
+        ),
+        Observer(
+          builder: (_){
+            return controller.getIsParcelado ? getFieldParcelas() : Container(height: 0.0, width: 0.0);
+          },
+        )
+      ],
+    );
+  }
+
+  Widget getCheckBoxIsCredito() {
+    return Observer(
+      builder: (_){
+        return CheckboxListTile(
+          title: Text('Pago utilizando crédito'),
+          value: controller.getIsCredito,
+          controlAffinity: ListTileControlAffinity.leading,
+          onChanged: (bool value) => controller.changeisCredito(),
+        );
+      }
+    );
+  }
+
+  Widget getCheckBoxIsParcelado() {
+    return Observer(
+      builder: (_){
+        return CheckboxListTile(
+          title: Text('Parcelado'),
+          value: controller.getIsParcelado,
+          controlAffinity: ListTileControlAffinity.leading,
+          onChanged: (bool value) => controller.changeIsParcelado(),
+        );
+      }
+    );
+  }
+
+  Widget getFieldParcelas(){
+    return Column(
+      children: [
+        CustonWidget.getTextFormField(
+          context: context,
+          hintText: 'Parcelas',
+          prefixIcon: Icon(Icons.format_list_numbered_rounded),
+          keyboardType: TextInputType.number,
+          inputFormatters: controller.makFormaterParcelas,
+          validator: (value){
+            if(controller.getIsParcelado){
+              if(value.isEmpty || value == '0'){
+                return 'Informe a quantidade de parcelas';
+              }
+              if(value == '1'){
+                return 'Quantidade inválida';
+              }
+            }
+          },
+          onChanged: (value) => controller.setQtdParcelas(value),
+          onSaved: (value) => value.isNotEmpty ? controller.lancamentoModel.qtdParcelas = int.parse(value) : null
+        ),
+        SizedBox(height: 10),
+      ],
+    );
+  }
+
+  Widget getBtnSalvar(){
+    return Container(
       child: Column(
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-
-              /* TEXT FIELD DATA */
-              Expanded(
-                child: CustonWidget.getTextFormField(
-                  context: context,
-                  hintText: 'Data',
-                  prefixIcon: Icon(Icons.calendar_today),
-                  keyboardType: TextInputType.number,
-                  nextFocus: controller.valorFocus,
-                  inputFormatters: controller.maskFormatterData,
-                  initialValue: DateFormat("dd/MM/yyyy").format(controller.data),
-                  validator: true
-                ),
-              ),
-              SizedBox(width: 10),
-
-              /* TEXT FIELD VALOR */
-              Expanded(
-                child: CustonWidget.getTextFormField(
-                  context: context,
-                  hintText: 'Valor',
-                  prefixIcon: Icon(Icons.attach_money_rounded),
-                  keyboardType: TextInputType.number,
-                  nextFocus: controller.historicoFocus,
-                  focus: controller.valorFocus,
-                  inputFormatters: controller.maskFormatterValor,
-                  validator: true
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: 10),
-
-          /* AUTOCOMPLETE TEXT FIELD PORTADOR */
-          CustonWidget.getAutocCompleteTextFormFieldPortador(
-            context: context,
-            suggestions: controller.getPortadores,
-            hintText: 'Portador',
-            prefixIcon: Icon(Icons.account_balance_rounded),
-            itemSubmitted: (item) {
-              portadorController.text = item.nome;
-              controller.lancamentoModel.portador = item;
+          Observer(
+            builder: (_){
+              return controller.getIsParcelado ? Text(
+                controller.getResultadoParcelas != null && !controller.getReceita ? 'Pago em ${controller.getQtdParcelas}x de R\$${controller.getResultadoParcelas}' : ''
+              ) : Container(height: 0.0, width: 0.0);
             },
-            controller: portadorController
           ),
-          SizedBox(height: 10),
-
-          /* AUTOCOMPLETE TEXT FIELD CONTRAPARTIDA */
-          CustonWidget.getAutocCompleteTextFormFieldPlano(
-            context: context,
-            suggestions: controller.getContas,
-            hintText: 'Contrapartida',
-            prefixIcon: Icon(Icons.account_balance_rounded),
-            itemSubmitted: (item) {
-              planoController.text = item.nome;
-              controller.lancamentoModel.plano = item;
+          SizedBox(height: 5),
+          Observer(
+            builder: (_) {
+              return CustonWidget.getElevatedButton(
+                text: 'SALVAR', 
+                onPressed: () => controller.salvar(),
+                busy: controller.getBusy
+              );
             },
-            controller: planoController
-          ),
-          SizedBox(height: 10),
-
-          /* TEXT FIELD HISTORICO  */
-          CustonWidget.getTextFormField(
-            context: context,
-            hintText: 'Histórico',
-            prefixIcon: Icon(Icons.history),
-            focus: controller.historicoFocus,
-            maxLines: 3,
-            validator: true
           ),
         ],
       ),

@@ -7,6 +7,8 @@ import 'package:despesas_app/app/pages/login/login_controller.dart';
 import 'package:despesas_app/app/pages/login/login_page.dart';
 import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_controller.dart';
 import 'package:despesas_app/app/services/auth_service.dart';
+import 'package:despesas_app/app/services/home_service.dart';
+import 'package:despesas_app/app/services/lancamento_service.dart';
 import 'package:despesas_app/app/services/portador_service.dart';
 import 'package:despesas_app/app/utils/constants.dart';
 import 'package:dio/dio.dart';
@@ -24,6 +26,8 @@ class AppModule extends Module {
     Bind((i) => BodyPlanoController()),
     Bind((i) => AuthService(i.get())),
     Bind((i) => PortadorService(i.get())),
+    Bind((i) => LancamentoService(i.get())),
+    Bind((i) => HomeService(i.get())),
     Bind((i) => Dio(BaseOptions(baseUrl: BASE_URL))),
   ];
 

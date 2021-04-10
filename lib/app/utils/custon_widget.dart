@@ -46,7 +46,7 @@ class CustonWidget {
   static TextFormField getTextFormField({
     @required BuildContext context,
     @required String hintText,
-    bool validator = false,
+    Function(String) validator,
     Icon prefixIcon,
     var inputFormatters,
     String initialValue = '',
@@ -54,7 +54,9 @@ class CustonWidget {
     FocusNode nextFocus,
     TextInputType keyboardType = TextInputType.text,
     int maxLines = 1,
-    TextCapitalization textCapitalization = TextCapitalization.sentences
+    TextCapitalization textCapitalization = TextCapitalization.sentences,
+    Function(String) onChanged,
+    Function(String) onSaved
   }) {
     return TextFormField(
       inputFormatters: inputFormatters == null ? [] : [inputFormatters],
@@ -63,19 +65,15 @@ class CustonWidget {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),
         prefixIcon: prefixIcon, 
       ),
-      validator: (value){
-        if(validator && value.isEmpty) {
-          return 'Campo obrigatório';
-        } else {
-          return null;
-        }
-      },
+      validator: validator == null ? (value) => null : validator,
       maxLines: maxLines,
       initialValue: initialValue,
       keyboardType: keyboardType,
       focusNode: focus,
       onEditingComplete: () => FocusScope.of(context).requestFocus(nextFocus),
       textCapitalization: textCapitalization,
+      onChanged: onChanged,
+      onSaved: onSaved,
     );
   }
 
