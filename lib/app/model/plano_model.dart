@@ -2,19 +2,15 @@ class PlanoModel {
   int id;
   String codContabil;
   String nome;
-  double saldoAtual;
+  bool dre;
 
-  PlanoModel({
-    this.id,
-    this.codContabil,
-    this.nome,
-    this.saldoAtual
-  });
+  PlanoModel({this.id, this.codContabil, this.nome, this.dre});
 
   PlanoModel.fromJson(Map<String, dynamic> json) {
     this.id = json['id'];
     this.codContabil = json['cod_contabil'];
     this.nome = json['nome'];
+    this.dre = json['dre'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +18,7 @@ class PlanoModel {
     data['id'] = this.id;
     data['cod_contabil'] = this.codContabil;
     data['nome'] = this.nome;
+    data['dre'] = this.dre;
     return data;
   }
 }

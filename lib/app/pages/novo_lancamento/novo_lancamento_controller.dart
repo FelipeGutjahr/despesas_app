@@ -11,44 +11,40 @@ import 'package:mobx/mobx.dart';
 
 part 'novo_lancamento_controller.g.dart';
 
-class NovoLancamentoController = _NovoLancamentoController with _$NovoLancamentoController;
+class NovoLancamentoController = _NovoLancamentoController
+    with _$NovoLancamentoController;
 
 abstract class _NovoLancamentoController with Store {
-
   final lancamentoService = Modular.get<LancamentoService>();
 
   final portadorService = Modular.get<PortadorService>();
 
   final planoService = Modular.get<PlanoService>();
-  
-  _NovoLancamentoController(){
+
+  _NovoLancamentoController() {
     findPortadores();
     findContas();
   }
-  
+
   final formKey = GlobalKey<FormState>();
-  
+
   var valorFocus = new FocusNode();
   var historicoFocus = new FocusNode();
 
-  var maskFormatterData = TextInputMask(
-    mask: '99/99/9999'
-  );
+  var maskFormatterData = TextInputMask(mask: '99/99/9999');
 
   var maskFormatterValor = TextInputMask(
-    mask: '9+999.999.999.999,99',
-    reverse: true,
-    placeholder: '0',
-    maxPlaceHolders: 3
-  );
+      mask: '9+999.999.999.999,99',
+      reverse: true,
+      placeholder: '0',
+      maxPlaceHolders: 3);
 
-  var makFormaterParcelas = TextInputMask(
-    mask: '9+9'
-  );
+  var makFormaterParcelas = TextInputMask(mask: '9+9');
 
   /* DateTime data = DateTime.now(); */
 
-  LancamentoModel lancamentoModel = LancamentoModel(isCredito: false, isParcelado: false, qtdParcelas: 0);
+  LancamentoModel lancamentoModel =
+      LancamentoModel(isCredito: false, isParcelado: false, qtdParcelas: 0);
 
   @observable
   List<PortadorModel> _portadores = <PortadorModel>[];
@@ -88,11 +84,11 @@ abstract class _NovoLancamentoController with Store {
 
   @action
   void changeisCredito() {
-    if(getIsParcelado) changeIsParcelado();
+    if (getIsParcelado) changeIsParcelado();
     _isCredito = !_isCredito;
     lancamentoModel.isCredito = _isCredito;
   }
-  
+
   @action
   void changeIsParcelado() {
     setQtdParcelas('0');
@@ -102,13 +98,18 @@ abstract class _NovoLancamentoController with Store {
 
   @action
   void setQtdParcelas(String parcelas) {
-    parcelas == null || parcelas == '' ? _qtdParcelas = 0 : _qtdParcelas = int.parse(parcelas);
+    parcelas == null || parcelas == ''
+        ? _qtdParcelas = 0
+        : _qtdParcelas = int.parse(parcelas);
     lancamentoModel.qtdParcelas = _qtdParcelas;
   }
 
   @action
   void setValor(String valor) {
-    valor == null ? _valor = 0 : _valor = double.parse(valor.replaceAll(RegExp(r'\.'), '').replaceAll(RegExp(r','), '.'));
+    valor == null
+        ? _valor = 0
+        : _valor = double.parse(
+            valor.replaceAll(RegExp(r'\.'), '').replaceAll(RegExp(r','), '.'));
     lancamentoModel.valor = _valor;
   }
 
@@ -135,8 +136,12 @@ abstract class _NovoLancamentoController with Store {
 
   @computed
   String get getResultadoParcelas {
-    if(_valor != 0 && _qtdParcelas != 0) return (_valor/_qtdParcelas).toStringAsFixed(2).replaceAll(RegExp(r'\.'), ',');
-    else return null;
+    if (_valor != 0 && _qtdParcelas != 0)
+      return (_valor / _qtdParcelas)
+          .toStringAsFixed(2)
+          .replaceAll(RegExp(r'\.'), ',');
+    else
+      return null;
   }
 
   findPortadores() async {
@@ -151,7 +156,7 @@ abstract class _NovoLancamentoController with Store {
 
   salvar() {
     formKey.currentState.save();
-    if(formKey.currentState.validate()){
+    if (formKey.currentState.validate()) {
       lancamentoService.salvar(lancamentoModel);
     }
   }

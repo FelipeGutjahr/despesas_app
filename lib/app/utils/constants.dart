@@ -1,5 +1,7 @@
-const String BASE_URL = 'http://192.168.0.101:8080';
+const String BASE_URL = 'http://127.0.0.1:8080';
 
-const String TOKEN = '';
+const String TOKEN =
+    'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJndXRqYWhyZmVsaXBlQGdtYWlsLmNvbSIsImV4cCI6MTYxOTAyMTU0OH0.XgL2_xwMShNd-5D3SQ2u39i3XU_uCWs5abeaAViLPdW8EugLT9c5QhDM8UrCd9Hn-ZEDjg6OvVr5ep6RdaLddA';
 
-const emailValidator = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+const emailValidator =
+    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';

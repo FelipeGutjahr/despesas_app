@@ -3,7 +3,6 @@ import 'package:despesas_app/app/utils/constants.dart';
 import 'package:dio/dio.dart';
 
 class PlanoService {
-
   final Dio _dio;
 
   PlanoService(this._dio);
@@ -14,5 +13,10 @@ class PlanoService {
     List<PlanoModel> list = <PlanoModel>[];
     res.data.forEach((value) => list.add(PlanoModel.fromJson(value)));
     return list;
+  }
+
+  Future<void> salvar(PlanoModel planoModel) async {
+    Response res = await _dio.post('/planos', data: planoModel.toJson());
+    print('Status code: ${res.statusCode}');
   }
 }
