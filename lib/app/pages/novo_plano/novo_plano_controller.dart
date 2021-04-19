@@ -1,5 +1,6 @@
 import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:despesas_app/app/services/plano_service.dart';
+import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -10,6 +11,8 @@ class NovoPlanoController = _NovoPlanoController with _$NovoPlanoController;
 
 abstract class _NovoPlanoController with Store {
   final _planoService = Modular.get<PlanoService>();
+
+  var maskCodContabil = TextInputMask(mask: '9.99.99.99.99.99.99.99.99.99.99');
 
   final formKey = GlobalKey<FormState>();
 

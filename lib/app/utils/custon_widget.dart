@@ -118,7 +118,6 @@ class CustonWidget {
       suggestions: suggestions,
       focusNode: focus,
       clearOnSubmit: false,
-      style: TextStyle(color: Colors.black87, fontSize: 16.0),
       decoration: InputDecoration(
           hintText: hintText,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),
@@ -153,7 +152,6 @@ class CustonWidget {
       suggestions: suggestions,
       focusNode: focus,
       clearOnSubmit: false,
-      style: TextStyle(color: Colors.black87, fontSize: 16.0),
       decoration: InputDecoration(
           hintText: hintText,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),

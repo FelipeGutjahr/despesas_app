@@ -1,5 +1,7 @@
 import 'package:despesas_app/app/model/item_card_model.dart';
 import 'package:despesas_app/app/pages/body_home/body_home_controller.dart';
+import 'package:despesas_app/app/pages/nova_despesa/nova_despesa_page.dart';
+import 'package:despesas_app/app/utils/custon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -9,7 +11,7 @@ class BodyHomePage extends StatefulWidget {
 }
 
 class _BodyHomePageState extends State<BodyHomePage> {
-  final controller = Modular.get<BodyHomeController>();
+  final _controller = Modular.get<BodyHomeController>();
 
   double _width = 0;
 
@@ -28,22 +30,29 @@ class _BodyHomePageState extends State<BodyHomePage> {
         children: [
           /* CARD TOTAL PAGO */
           StreamBuilder(
-              stream: controller.getTotalPago,
+              stream: _controller.getTotalPago,
               builder: (BuildContext context,
                   AsyncSnapshot<List<ItemCardModel>> snapshot) {
                 return getCard(
-                  context: context,
-                  title: 'Total pago',
-                  textTitleColor: Colors.red,
-                  backTitleColor: Colors.transparent,
-                  textValueColor: Colors.white,
-                  itens: snapshot.data,
-                );
+                    context: context,
+                    title: 'Total pago',
+                    textTitleColor: Colors.red,
+                    backTitleColor: Colors.transparent,
+                    textValueColor: Colors.white,
+                    itens: snapshot.data,
+                    addIcon: Icon(Icons.add_rounded),
+                    onPressed: () async {
+                      await CustonWidget().showAlertForm(
+                          context: context,
+                          title: 'Nova despesa',
+                          form: NovaDepesaPage().page(context));
+                      _controller.findAll();
+                    });
               }),
 
           /* CARD TOTAL RECEBIDO */
           StreamBuilder(
-              stream: controller.getTotalRecebido,
+              stream: _controller.getTotalRecebido,
               builder: (BuildContext context,
                   AsyncSnapshot<List<ItemCardModel>> snapshot) {
                 return getCard(
@@ -58,7 +67,7 @@ class _BodyHomePageState extends State<BodyHomePage> {
 
           /* CARD PORTADORES */
           StreamBuilder(
-              stream: controller.getPortadores,
+              stream: _controller.getPortadores,
               builder: (BuildContext context,
                   AsyncSnapshot<List<ItemCardModel>> snapshot) {
                 return getCard(
@@ -81,7 +90,9 @@ class _BodyHomePageState extends State<BodyHomePage> {
       @required Color textTitleColor,
       @required Color backTitleColor,
       @required Color textValueColor,
-      @required List<ItemCardModel> itens}) {
+      @required List<ItemCardModel> itens,
+      Icon addIcon,
+      void Function() onPressed}) {
     return Card(
       elevation: 3,
       child: Column(
@@ -96,17 +107,26 @@ class _BodyHomePageState extends State<BodyHomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                      color: backTitleColor,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5))),
-                  padding: EdgeInsets.all(5),
-                  alignment: Alignment.centerLeft,
-                  height: 40,
-                  child: Text(title,
-                      style: TextStyle(color: textTitleColor, fontSize: 25)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          color: backTitleColor,
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(5),
+                              topRight: Radius.circular(5))),
+                      padding: EdgeInsets.all(5),
+                      alignment: Alignment.centerLeft,
+                      height: 40,
+                      child: Text(title,
+                          style:
+                              TextStyle(color: textTitleColor, fontSize: 25)),
+                    ),
+                    (addIcon != null && onPressed != null)
+                        ? IconButton(icon: addIcon, onPressed: onPressed)
+                        : Container()
+                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.all(itens == null ? 8 : 0),

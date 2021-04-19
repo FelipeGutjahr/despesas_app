@@ -15,6 +15,7 @@ class NovoPlanoPage {
           CustonWidget.getTextFormField(
               context: context,
               hintText: 'Código contábil',
+              inputFormatters: _controller.maskCodContabil,
               onSaved: (value) => _controller.planoModel.codContabil = value,
               validator: (value) =>
                   value.isEmpty ? 'Informe o código contábil' : null),

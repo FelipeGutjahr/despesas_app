@@ -12,6 +12,8 @@ class PortadorModel {
   PortadorModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nome = json['nome'];
+    credito = json['credito'];
+    limite = json['limite'];
     plano = PlanoModel.fromJson(json['plano']);
   }
 
@@ -19,6 +21,8 @@ class PortadorModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['nome'] = this.nome;
+    data['credito'] = this.credito;
+    data['limite'] = this.limite;
     if (this.plano != null) {
       data['plano'] = this.plano.toJson();
     }

@@ -39,9 +39,9 @@ class LancamentoModel {
     data['historico'] = this.historico;
     data['plano_debito_id'] = this.planoDebito.id;
     data['plano_credito_id'] = this.planoCredito.id;
-    data['is_credito'] = this.isCredito;
-    data['is_parcelado'] = this.isParcelado;
-    data['qtd_parcelas'] = this.qtdParcelas;
+    data['is_credito'] = this.isCredito == null ? false : this.isCredito;
+    data['is_parcelado'] = this.isParcelado == null ? false : this.isParcelado;
+    data['qtd_parcelas'] = this.qtdParcelas == null ? 0 : this.qtdParcelas;
     return data;
   }
 

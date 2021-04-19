@@ -3,6 +3,7 @@ import 'package:despesas_app/app/pages/home/home_controller.dart';
 import 'package:despesas_app/app/pages/home/home_page.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
 import 'package:despesas_app/app/pages/login/login_page.dart';
+import 'package:despesas_app/app/pages/nova_despesa/nova_despesa_controller.dart';
 import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_controller.dart';
 import 'package:despesas_app/app/pages/novo_plano/novo_plano_controller.dart';
 import 'package:despesas_app/app/pages/plano/plano_controller.dart';
@@ -30,7 +31,8 @@ class AppModule extends Module {
         Bind((i) => PlanoService(i.get())),
         Bind((i) => Dio(BaseOptions(baseUrl: BASE_URL))),
         Bind((i) => PlanoController()),
-        Bind((i) => NovoPlanoController())
+        Bind((i) => NovoPlanoController()),
+        Bind((i) => NovaDespesaController()),
       ];
 
   //rotas nomeadas
