@@ -23,9 +23,7 @@ class PortadorModel {
     data['nome'] = this.nome;
     data['credito'] = this.credito;
     data['limite'] = this.limite;
-    if (this.plano != null) {
-      data['plano'] = this.plano.toJson();
-    }
+    data['plano_id'] = this.plano.id;
     return data;
   }
 }

@@ -1,6 +1,5 @@
 import 'package:despesas_app/app/pages/body_home/body_home_page.dart';
 import 'package:despesas_app/app/pages/home/home_controller.dart';
-import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_page.dart';
 import 'package:despesas_app/app/pages/plano/plano_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -22,7 +21,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         key: homeController.drawerKey,
         appBar: getAppBar(),
-        endDrawer: getEndDrawer(),
         body: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -70,13 +68,5 @@ class _HomePageState extends State<HomePage> {
 
   List<Widget> getActions() {
     return [IconButton(icon: Icon(Icons.settings), onPressed: () => null)];
-  }
-
-  Widget getEndDrawer() {
-    return Container(
-      child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          child: NovoLancamentoPage()),
-    );
   }
 }

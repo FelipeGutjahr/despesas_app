@@ -31,8 +31,8 @@ abstract class _NovoPlanoController with Store {
   bool get getIsDre => _isDre;
 
   salvar() async {
-    formKey.currentState.save();
     if (formKey.currentState.validate()) {
+      formKey.currentState.save();
       await _planoService.salvar(planoModel);
       Modular.to.pop();
     }

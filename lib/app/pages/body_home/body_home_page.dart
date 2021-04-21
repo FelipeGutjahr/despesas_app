@@ -1,6 +1,8 @@
 import 'package:despesas_app/app/model/item_card_model.dart';
 import 'package:despesas_app/app/pages/body_home/body_home_controller.dart';
 import 'package:despesas_app/app/pages/nova_despesa/nova_despesa_page.dart';
+import 'package:despesas_app/app/pages/nova_receita/nova_receita_page.dart';
+import 'package:despesas_app/app/pages/novo_portador/novo_portador_page.dart';
 import 'package:despesas_app/app/utils/custon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -56,13 +58,20 @@ class _BodyHomePageState extends State<BodyHomePage> {
               builder: (BuildContext context,
                   AsyncSnapshot<List<ItemCardModel>> snapshot) {
                 return getCard(
-                  context: context,
-                  title: 'Total recebido',
-                  textTitleColor: Colors.green,
-                  backTitleColor: Colors.transparent,
-                  textValueColor: Colors.white,
-                  itens: snapshot.data,
-                );
+                    context: context,
+                    title: 'Total recebido',
+                    textTitleColor: Colors.green,
+                    backTitleColor: Colors.transparent,
+                    textValueColor: Colors.white,
+                    itens: snapshot.data,
+                    addIcon: Icon(Icons.add_rounded),
+                    onPressed: () async {
+                      await CustonWidget().showAlertForm(
+                          context: context,
+                          title: 'Nova receita',
+                          form: NovaReceitaPage().page(context));
+                      _controller.findAll();
+                    });
               }),
 
           /* CARD PORTADORES */
@@ -71,13 +80,17 @@ class _BodyHomePageState extends State<BodyHomePage> {
               builder: (BuildContext context,
                   AsyncSnapshot<List<ItemCardModel>> snapshot) {
                 return getCard(
-                  context: context,
-                  title: 'Portadores',
-                  textTitleColor: Colors.white,
-                  backTitleColor: Colors.transparent,
-                  textValueColor: Colors.white,
-                  itens: snapshot.data,
-                );
+                    context: context,
+                    title: 'Portadores',
+                    textTitleColor: Colors.white,
+                    backTitleColor: Colors.transparent,
+                    textValueColor: Colors.white,
+                    itens: snapshot.data,
+                    addIcon: Icon(Icons.add_rounded),
+                    onPressed: () async {
+                      await NovoPortadorPage().showForm(context);
+                      _controller.findSaldoPortadores();
+                    });
               }),
         ],
       ),
@@ -141,8 +154,7 @@ class _BodyHomePageState extends State<BodyHomePage> {
                                     ),
                                     subtitle: Text(
                                       e.value,
-                                      style: TextStyle(
-                                          color: textValueColor, fontSize: 20),
+                                      style: TextStyle(fontSize: 20),
                                     ),
                                   ))
                               .toList(),

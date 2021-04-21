@@ -4,6 +4,7 @@ import 'package:despesas_app/app/model/portador_model.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class CustonWidget {
   var defaultMask = TextInputMask(mask: 'X*X');
@@ -47,18 +48,6 @@ class CustonWidget {
       builder: (BuildContext context) {
         return AlertDialog(title: Text(title), content: form, scrollable: true);
       },
-    );
-  }
-
-  Widget getForm(BuildContext context) {
-    return Form(
-      child: Column(
-        children: [
-          getTextFormField(context: context, hintText: 'Código contábil'),
-          SizedBox(height: 8.0),
-          getTextFormField(context: context, hintText: 'Nome'),
-        ],
-      ),
     );
   }
 
@@ -133,11 +122,29 @@ class CustonWidget {
     return autoCompleteTextField;
   }
 
-  /* AUTOCOMPLETE TEXT FORM FIELD PORTADOR */
+  /*static TypeAheadField getAutocompleteTypeAheadField({
+    @required List<PortadorModel> suggestions,
+  }) {
+    return TypeAheadField<PortadorModel>(
+      textFieldConfiguration: TextFieldConfiguration(
+          decoration: InputDecoration(border: OutlineInputBorder())),
+      suggestionsCallback: (pattern) {
+        var _list = suggestions.where((element) {
+          if (element.nome.toLowerCase() == pattern.toUpperCase()) {return element}
+        });
+        return _list.toList();
+      },
+      itemBuilder: (context, suggestion) {},
+      onSuggestionSelected: (suggestion) {},
+    );
+  }*/
+
+  /* AUTOCOMPLETE TEXT FORM FIELD PLANO */
   static AutoCompleteTextField<PlanoModel> getAutocCompleteTextFormFieldPlano({
     @required BuildContext context,
     @required List<PlanoModel> suggestions,
     @required String hintText,
+    //@required bool enabled,
     Icon prefixIcon,
     FocusNode focus,
     FocusNode nextFocus,
@@ -146,13 +153,14 @@ class CustonWidget {
     AutoCompleteTextField autoCompleteTextField,
     @required Function(PlanoModel) itemSubmitted,
   }) {
-    autoCompleteTextField = AutoCompleteTextField<PlanoModel>(
+    return AutoCompleteTextField<PlanoModel>(
       key: key,
       controller: controller,
       suggestions: suggestions,
       focusNode: focus,
       clearOnSubmit: false,
       decoration: InputDecoration(
+          //enabled: enabled,
           hintText: hintText,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),
           prefixIcon: prefixIcon),
@@ -164,7 +172,6 @@ class CustonWidget {
         return ListTile(title: Text(item.nome));
       },
     );
-    return autoCompleteTextField;
   }
 
   /* ELEVATED BUTTON */
@@ -180,7 +187,7 @@ class CustonWidget {
             ? CircularProgressIndicator(
                 valueColor: const AlwaysStoppedAnimation<Color>(Colors.white))
             : Text(text, style: TextStyle(color: Colors.white)),
-        onPressed: onPressed,
+        onPressed: busy ? null : onPressed,
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(Colors.blue[800]),
             shape: MaterialStateProperty.all(RoundedRectangleBorder(

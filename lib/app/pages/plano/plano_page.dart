@@ -1,5 +1,4 @@
 import 'package:despesas_app/app/model/plano_model.dart';
-import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_page.dart';
 import 'package:despesas_app/app/pages/novo_plano/novo_plano_page.dart';
 import 'package:despesas_app/app/pages/plano/plano_controller.dart';
 import 'package:despesas_app/app/utils/custon_widget.dart';

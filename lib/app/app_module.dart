@@ -4,8 +4,9 @@ import 'package:despesas_app/app/pages/home/home_page.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
 import 'package:despesas_app/app/pages/login/login_page.dart';
 import 'package:despesas_app/app/pages/nova_despesa/nova_despesa_controller.dart';
-import 'package:despesas_app/app/pages/novo_lancamento/novo_lancamento_controller.dart';
+import 'package:despesas_app/app/pages/nova_receita/nova_receita_controller.dart';
 import 'package:despesas_app/app/pages/novo_plano/novo_plano_controller.dart';
+import 'package:despesas_app/app/pages/novo_portador/novo_portador_controller.dart';
 import 'package:despesas_app/app/pages/plano/plano_controller.dart';
 import 'package:despesas_app/app/services/auth_service.dart';
 import 'package:despesas_app/app/services/home_service.dart';
@@ -21,7 +22,6 @@ class AppModule extends Module {
   @override
   List<Bind> get binds => [
         Bind((i) => LoginController()),
-        Bind((i) => NovoLancamentoController()),
         Bind((i) => HomeController()),
         Bind((i) => BodyHomeController()),
         Bind((i) => AuthService(i.get())),
@@ -33,6 +33,8 @@ class AppModule extends Module {
         Bind((i) => PlanoController()),
         Bind((i) => NovoPlanoController()),
         Bind((i) => NovaDespesaController()),
+        Bind((i) => NovaReceitaController()),
+        Bind((i) => NovoPortadorController())
       ];
 
   //rotas nomeadas
