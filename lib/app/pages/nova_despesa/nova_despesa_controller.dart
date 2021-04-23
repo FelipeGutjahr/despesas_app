@@ -1,6 +1,8 @@
+import 'package:despesas_app/app/model/duplicata_model.dart';
 import 'package:despesas_app/app/model/lancamento_model.dart';
 import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:despesas_app/app/model/portador_model.dart';
+import 'package:despesas_app/app/services/duplicata_service.dart';
 import 'package:despesas_app/app/services/lancamento_service.dart';
 import 'package:despesas_app/app/services/plano_service.dart';
 import 'package:despesas_app/app/services/portador_service.dart';
@@ -23,6 +25,7 @@ abstract class _NovaDespesaController with Store {
   final _lancamentoService = Modular.get<LancamentoService>();
   final _portadorService = Modular.get<PortadorService>();
   final _planoService = Modular.get<PlanoService>();
+  final _duplicataService = Modular.get<DuplicataService>();
 
   final formKey = GlobalKey<FormState>();
 
@@ -44,9 +47,13 @@ abstract class _NovaDespesaController with Store {
   var makFormaterParcelas = TextInputMask(mask: '9+9');
 
   LancamentoModel lancamentoModel = LancamentoModel();
+  DuplicataModel duplicataModel = DuplicataModel(aReceber: false);
 
   @observable
   bool _busy = false;
+
+  @observable
+  bool _duplicata = false;
 
   @observable
   List<PortadorModel> _portadores = <PortadorModel>[];
@@ -68,6 +75,12 @@ abstract class _NovaDespesaController with Store {
 
   @action
   void changeBusy() => _busy = !_busy;
+
+  @action
+  void changeDuplicata() => {
+        _duplicata = !_duplicata,
+        if (_duplicata && _isCredito) changeisCredito()
+      };
 
   @action
   void _setPortadores(List<PortadorModel> data) => _portadores = data;
@@ -107,6 +120,9 @@ abstract class _NovaDespesaController with Store {
   bool get getBusy => _busy;
 
   @computed
+  bool get getDuplicata => _duplicata;
+
+  @computed
   List<PortadorModel> get getPortadores => _portadores;
 
   @computed
@@ -134,11 +150,23 @@ abstract class _NovaDespesaController with Store {
     _setPlanos(list);
   }
 
+  salvarr() async {
+    changeBusy();
+    await Future.delayed(Duration(seconds: 5));
+    changeBusy();
+  }
+
   salvar() async {
-    formKey.currentState.save();
+    changeBusy();
     if (formKey.currentState.validate()) {
-      await _lancamentoService.salvar(lancamentoModel);
+      formKey.currentState.save();
+      if (_duplicata) {
+        await _duplicataService.salvar(duplicataModel);
+      } else {
+        await _lancamentoService.salvar(lancamentoModel);
+      }
       Modular.to.pop();
     }
+    changeBusy();
   }
 }

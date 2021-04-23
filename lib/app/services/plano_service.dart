@@ -7,16 +7,18 @@ class PlanoService {
 
   PlanoService(this._dio);
 
+  String _path = '/planos';
+
   Future<List<PlanoModel>> findAll() async {
     _dio.options.headers['authorization'] = TOKEN;
-    var res = await _dio.get('/planos');
+    var res = await _dio.get(_path);
     List<PlanoModel> list = <PlanoModel>[];
     res.data.forEach((value) => list.add(PlanoModel.fromJson(value)));
     return list;
   }
 
   Future<void> salvar(PlanoModel planoModel) async {
-    Response res = await _dio.post('/planos', data: planoModel.toJson());
+    Response res = await _dio.post(_path, data: planoModel.toJson());
     print('Status code: ${res.statusCode}');
   }
 }

@@ -8,11 +8,15 @@ import 'package:despesas_app/app/pages/nova_receita/nova_receita_controller.dart
 import 'package:despesas_app/app/pages/novo_plano/novo_plano_controller.dart';
 import 'package:despesas_app/app/pages/novo_portador/novo_portador_controller.dart';
 import 'package:despesas_app/app/pages/plano/plano_controller.dart';
+import 'package:despesas_app/app/pages/settings/settings_controller.dart';
+import 'package:despesas_app/app/pages/settings/settings_page.dart';
 import 'package:despesas_app/app/services/auth_service.dart';
+import 'package:despesas_app/app/services/duplicata_service.dart';
 import 'package:despesas_app/app/services/home_service.dart';
 import 'package:despesas_app/app/services/lancamento_service.dart';
 import 'package:despesas_app/app/services/plano_service.dart';
 import 'package:despesas_app/app/services/portador_service.dart';
+import 'package:despesas_app/app/services/usuario_service.dart';
 import 'package:despesas_app/app/utils/constants.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -34,7 +38,10 @@ class AppModule extends Module {
         Bind((i) => NovoPlanoController()),
         Bind((i) => NovaDespesaController()),
         Bind((i) => NovaReceitaController()),
-        Bind((i) => NovoPortadorController())
+        Bind((i) => NovoPortadorController()),
+        Bind((i) => DuplicataService(i.get())),
+        Bind((i) => SettingsController()),
+        Bind((i) => UsuarioService(i.get())),
       ];
 
   //rotas nomeadas
@@ -43,5 +50,6 @@ class AppModule extends Module {
         ChildRoute('/', child: (__, args) => LoginPage()),
         ChildRoute('/login', child: (__, args) => LoginPage()),
         ChildRoute('/home', child: (__, args) => HomePage()),
+        ChildRoute('/settings', child: (__, args) => SettingsPage())
       ];
 }

@@ -1,6 +1,8 @@
+import 'package:despesas_app/app/model/duplicata_model.dart';
 import 'package:despesas_app/app/model/lancamento_model.dart';
 import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:despesas_app/app/model/portador_model.dart';
+import 'package:despesas_app/app/services/duplicata_service.dart';
 import 'package:despesas_app/app/services/lancamento_service.dart';
 import 'package:despesas_app/app/services/plano_service.dart';
 import 'package:despesas_app/app/services/portador_service.dart';
@@ -23,6 +25,7 @@ abstract class _NovaReceitaController with Store {
   final _lancamentoService = Modular.get<LancamentoService>();
   final _portadorService = Modular.get<PortadorService>();
   final _planoService = Modular.get<PlanoService>();
+  final _duplicataService = Modular.get<DuplicataService>();
 
   final formKey = GlobalKey<FormState>();
 
@@ -42,9 +45,16 @@ abstract class _NovaReceitaController with Store {
       maxPlaceHolders: 3);
 
   LancamentoModel lancamentoModel = LancamentoModel();
+  DuplicataModel duplicataModel = DuplicataModel(aReceber: true);
 
   @observable
   bool _busy = false;
+
+  @observable
+  bool _duplicata = false;
+
+  @observable
+  bool _duplicataSemRecebimentoPrevisto = false;
 
   @observable
   List<PortadorModel> _portadores = <PortadorModel>[];
@@ -56,6 +66,17 @@ abstract class _NovaReceitaController with Store {
   void changeBusy() => _busy = !_busy;
 
   @action
+  void changeDuplicata() => {
+        if (_duplicata && _duplicataSemRecebimentoPrevisto)
+          {changeDuplicataSemRecebimentoPrevisto()},
+        _duplicata = !_duplicata
+      };
+
+  @action
+  void changeDuplicataSemRecebimentoPrevisto() =>
+      _duplicataSemRecebimentoPrevisto = !_duplicataSemRecebimentoPrevisto;
+
+  @action
   void _setPortadores(List<PortadorModel> data) => _portadores = data;
 
   @action
@@ -63,6 +84,13 @@ abstract class _NovaReceitaController with Store {
 
   @computed
   bool get getBusy => _busy;
+
+  @computed
+  bool get getDuplicata => _duplicata;
+
+  @computed
+  bool get getDuplicataSemRecebimentoPrevisto =>
+      _duplicataSemRecebimentoPrevisto;
 
   @computed
   List<PortadorModel> get getPortadores => _portadores;
@@ -84,7 +112,11 @@ abstract class _NovaReceitaController with Store {
     changeBusy();
     if (formKey.currentState.validate()) {
       formKey.currentState.save();
-      await _lancamentoService.salvar(lancamentoModel);
+      if (_duplicata) {
+        await _duplicataService.salvar(duplicataModel);
+      } else {
+        await _lancamentoService.salvar(lancamentoModel);
+      }
       Modular.to.pop();
     }
     changeBusy();

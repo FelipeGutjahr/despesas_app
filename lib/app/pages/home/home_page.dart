@@ -52,7 +52,6 @@ class _HomePageState extends State<HomePage> {
 
   Widget getAppBar() {
     return AppBar(
-      elevation: 1,
       leading: Container(
         padding: EdgeInsets.all(4),
         decoration: BoxDecoration(
@@ -60,13 +59,16 @@ class _HomePageState extends State<HomePage> {
                 fit: BoxFit.cover, image: AssetImage('images/money_icon.png'))),
       ),
       centerTitle: true,
-      title: Text('Despesas',
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+      title: Text('Despesas'),
       actions: getActions(),
     );
   }
 
   List<Widget> getActions() {
-    return [IconButton(icon: Icon(Icons.settings), onPressed: () => null)];
+    return [
+      IconButton(
+          icon: Icon(Icons.settings),
+          onPressed: () => Modular.to.pushNamed('/settings'))
+    ];
   }
 }

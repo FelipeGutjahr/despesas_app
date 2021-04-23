@@ -7,7 +7,10 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(brightness: Brightness.light),
-      darkTheme: ThemeData(brightness: Brightness.dark),
+      darkTheme: ThemeData(
+          brightness: Brightness.dark,
+          checkboxTheme: CheckboxThemeData(
+              fillColor: MaterialStateProperty.all(Colors.blueAccent))),
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
       title: 'Despesas App',
