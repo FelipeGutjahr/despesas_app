@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
-
   final Dio _dio;
 
   AuthService(this._dio);
@@ -17,5 +16,6 @@ class AuthService {
   Future gravarToken(String token) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token_access', token);
+    prefs.getString('token_acesss');
   }
 }

@@ -16,7 +16,6 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: Container(),
         centerTitle: true,
         title: Text('Ajustes'),
       ),
@@ -40,7 +39,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         SizedBox(height: 28.0),
                         _getUserInformation(),
                         SizedBox(height: 38.0),
-                        _getSwitchListTile(context)
+                        _getSwitchListTileMes(context),
+                        _getSwitchListTileDark()
                       ],
                     );
             })),
@@ -65,7 +65,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _getSwitchListTile(BuildContext context) {
+  Widget _getSwitchListTileMes(BuildContext context) {
     return Observer(builder: (_) {
       return Column(
         children: [
@@ -94,6 +94,20 @@ class _SettingsPageState extends State<SettingsPage> {
               .toString(),
           hintText: 'Primeiro dia do mês',
           enabled: !_controller.getBusy);
+    });
+  }
+
+  Widget _getSwitchListTileDark() {
+    return Observer(builder: (_) {
+      return Column(
+        children: [
+          SwitchListTile(
+            title: Text('Tema escuro'),
+            value: _controller.getCustonDayMonth,
+            onChanged: (value) => _controller.changeCustonDayMonth(),
+          ),
+        ],
+      );
     });
   }
 }

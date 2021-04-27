@@ -7,7 +7,21 @@ import 'package:flutter_modular/flutter_modular.dart';
 final _controller = Modular.get<NovaDespesaController>();
 
 class NovaDepesaPage {
-  page(BuildContext context) {
+  Future<void> showForm(BuildContext context) {
+    return showDialog(
+      useSafeArea: true,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Novo portador'),
+          content: getForm(context),
+          scrollable: true,
+        );
+      },
+    );
+  }
+
+  getForm(BuildContext context) {
     return Form(
       key: _controller.formKey,
       child: Container(
@@ -25,7 +39,7 @@ class NovaDepesaPage {
             SizedBox(height: 8.0),
             getFieldHistorico(context),
             SizedBox(height: 8.0),
-            getBtnSalvar(context)
+            getBtnSalvar()
           ],
         ),
       ),
@@ -267,11 +281,11 @@ class NovaDepesaPage {
     });
   }
 
-  Widget getBtnSalvar(BuildContext context) {
+  Widget getBtnSalvar() {
     return Observer(builder: (_) {
       return CustonWidget.getElevatedButton(
           text: 'SALVAR',
-          onPressed: () => _controller.salvarr(),
+          onPressed: () => _controller.salvar(),
           busy: _controller.getBusy);
     });
   }

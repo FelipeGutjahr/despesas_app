@@ -22,6 +22,13 @@ abstract class _NovaDespesaController with Store {
     findContas();
   }
 
+  resetAll() {
+    portadorController.text = '';
+    planoController.text = '';
+    lancamentoModel = LancamentoModel();
+    duplicataModel = DuplicataModel(aReceber: false);
+  }
+
   final _lancamentoService = Modular.get<LancamentoService>();
   final _portadorService = Modular.get<PortadorService>();
   final _planoService = Modular.get<PlanoService>();

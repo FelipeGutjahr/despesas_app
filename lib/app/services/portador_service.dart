@@ -1,6 +1,6 @@
 import 'package:despesas_app/app/model/portador_model.dart';
-import 'package:despesas_app/app/utils/constants.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PortadorService {
   final Dio _dio;
@@ -10,7 +10,8 @@ class PortadorService {
   String _path = '/portadores';
 
   Future<List<PortadorModel>> findAll() async {
-    _dio.options.headers['authorization'] = TOKEN;
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    _dio.options.headers['authorization'] = prefs.getString('token_access');
     var res = await _dio.get(_path);
     List<PortadorModel> list = <PortadorModel>[];
     res.data.forEach((value) => list.add(PortadorModel.fromJson(value)));

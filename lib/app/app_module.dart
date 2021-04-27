@@ -1,4 +1,4 @@
-import 'package:despesas_app/app/pages/body_home/body_home_controller.dart';
+import 'package:despesas_app/app/app_controller.dart';
 import 'package:despesas_app/app/pages/home/home_controller.dart';
 import 'package:despesas_app/app/pages/home/home_page.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
@@ -8,6 +8,7 @@ import 'package:despesas_app/app/pages/nova_receita/nova_receita_controller.dart
 import 'package:despesas_app/app/pages/novo_plano/novo_plano_controller.dart';
 import 'package:despesas_app/app/pages/novo_portador/novo_portador_controller.dart';
 import 'package:despesas_app/app/pages/plano/plano_controller.dart';
+import 'package:despesas_app/app/pages/plano/plano_page.dart';
 import 'package:despesas_app/app/pages/settings/settings_controller.dart';
 import 'package:despesas_app/app/pages/settings/settings_page.dart';
 import 'package:despesas_app/app/services/auth_service.dart';
@@ -25,9 +26,9 @@ class AppModule extends Module {
   //controllers e objetos que serão compartilhados em todo o app
   @override
   List<Bind> get binds => [
+        Bind((i) => AppController()),
         Bind((i) => LoginController()),
         Bind((i) => HomeController()),
-        Bind((i) => BodyHomeController()),
         Bind((i) => AuthService(i.get())),
         Bind((i) => PortadorService(i.get())),
         Bind((i) => LancamentoService(i.get())),
@@ -50,6 +51,7 @@ class AppModule extends Module {
         ChildRoute('/', child: (__, args) => LoginPage()),
         ChildRoute('/login', child: (__, args) => LoginPage()),
         ChildRoute('/home', child: (__, args) => HomePage()),
-        ChildRoute('/settings', child: (__, args) => SettingsPage())
+        ChildRoute('/settings', child: (__, args) => SettingsPage()),
+        ChildRoute('/plano', child: (__, args) => PlanoPage())
       ];
 }

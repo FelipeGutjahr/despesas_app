@@ -13,54 +13,58 @@ class PlanoPage extends StatefulWidget {
 class _PlanoPageState extends State<PlanoPage> {
   final controller = Modular.get<PlanoController>();
 
-  double _width = 0;
-
   @override
   Widget build(BuildContext context) {
-    _width = MediaQuery.of(context).size.width - 50;
-    return Container(
-        width: _width < 750 ? _width : 750,
-        alignment: Alignment.topCenter,
-        child: SingleChildScrollView(child: getColumn(context)));
+    return Scaffold(
+        appBar: getAppBar(),
+        drawer: CustonWidget.getDrawer(),
+        body: getBody(context),
+        floatingActionButton: getFloatingActionButton());
   }
 
-  Widget getColumn(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        SizedBox(height: 8),
-        CustonWidget.getTextFormField(
+  Widget getAppBar() {
+    return AppBar(centerTitle: true, title: Text('Plano de contas'));
+  }
+
+  Widget getFloatingActionButton() {
+    return FloatingActionButton(
+      child: Icon(Icons.add_rounded),
+      onPressed: () async {
+        await CustonWidget().showAlertForm(
             context: context,
-            hintText: 'Pesquisar',
-            prefixIcon: Icon(Icons.search_rounded)),
-        SizedBox(height: 8),
-        CustonWidget.getElevatedButton(
-            text: 'Nova conta',
-            onPressed: () async {
-              await CustonWidget().showAlertForm(
-                  context: context,
-                  title: 'Cadastrar nova conta',
-                  form: NovoPlanoPage().page(context));
-              controller.findPlanos();
-            },
-            busy: false),
-        SizedBox(height: 8),
-        StreamBuilder(
-            stream: controller.getPlanos,
-            builder: (BuildContext context,
-                AsyncSnapshot<List<PlanoModel>> snapshot) {
-              return Padding(
-                padding: EdgeInsets.all(8.0),
-                child: snapshot.hasData
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: snapshot.data.map((e) => getItem(e)).toList(),
-                      )
-                    : CircularProgressIndicator(),
-              );
-            }),
-      ],
+            title: 'Cadastrar nova conta',
+            form: NovoPlanoPage().page(context));
+        controller.findPlanos();
+      },
+    );
+  }
+
+  Widget getBody(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            StreamBuilder(
+                stream: controller.getPlanos,
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<PlanoModel>> snapshot) {
+                  return Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: snapshot.hasData
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children:
+                                snapshot.data.map((e) => getItem(e)).toList(),
+                          )
+                        : CircularProgressIndicator(),
+                  );
+                }),
+          ],
+        ),
+      ),
     );
   }
 

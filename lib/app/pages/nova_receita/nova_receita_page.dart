@@ -7,7 +7,21 @@ import 'package:flutter_modular/flutter_modular.dart';
 final _controller = Modular.get<NovaReceitaController>();
 
 class NovaReceitaPage {
-  page(BuildContext context) {
+  Future<void> showForm(BuildContext context) {
+    return showDialog(
+      useSafeArea: true,
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Nova receita'),
+          content: getForm(context),
+          scrollable: true,
+        );
+      },
+    );
+  }
+
+  getForm(BuildContext context) {
     return Form(
         key: _controller.formKey,
         child: Container(

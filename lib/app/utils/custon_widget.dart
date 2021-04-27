@@ -4,7 +4,6 @@ import 'package:despesas_app/app/model/portador_model.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class CustonWidget {
   var defaultMask = TextInputMask(mask: 'X*X');
@@ -48,6 +47,49 @@ class CustonWidget {
       builder: (BuildContext context) {
         return AlertDialog(title: Text(title), content: form, scrollable: true);
       },
+    );
+  }
+
+  static Drawer getDrawer() {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Text('DrawerHeader'),
+            decoration: BoxDecoration(color: Colors.blueAccent),
+          ),
+          ListTile(
+            leading: Icon(Icons.home_outlined),
+            title: Text('Página inicial'),
+            onTap: () => Modular.to.pushNamed('/home'),
+          ),
+          ListTile(
+            leading: Icon(Icons.format_list_numbered_rounded),
+            title: Text('Plano de contas'),
+            onTap: () => Modular.to.pushNamed('/plano'),
+          ),
+          ListTile(
+            leading: Icon(Icons.payments_outlined),
+            title: Text('Duplicatas a receber'),
+            onTap: () => Modular.to.pushNamed('/duplicata-receber'),
+          ),
+          ListTile(
+            leading: Icon(Icons.payments_outlined),
+            title: Text('Duplicatas a pagar'),
+            onTap: () => Modular.to.pushNamed('/duplicata-pagar'),
+          ),
+          Divider(),
+          ListTile(
+            title: Text('Minha conta'),
+          ),
+          ListTile(
+            leading: Icon(Icons.settings_outlined),
+            title: Text('Ajustes'),
+            onTap: () => Modular.to.pushNamed('/settings'),
+          ),
+        ],
+      ),
     );
   }
 
@@ -122,23 +164,6 @@ class CustonWidget {
     return autoCompleteTextField;
   }
 
-  /*static TypeAheadField getAutocompleteTypeAheadField({
-    @required List<PortadorModel> suggestions,
-  }) {
-    return TypeAheadField<PortadorModel>(
-      textFieldConfiguration: TextFieldConfiguration(
-          decoration: InputDecoration(border: OutlineInputBorder())),
-      suggestionsCallback: (pattern) {
-        var _list = suggestions.where((element) {
-          if (element.nome.toLowerCase() == pattern.toUpperCase()) {return element}
-        });
-        return _list.toList();
-      },
-      itemBuilder: (context, suggestion) {},
-      onSuggestionSelected: (suggestion) {},
-    );
-  }*/
-
   /* AUTOCOMPLETE TEXT FORM FIELD PLANO */
   static AutoCompleteTextField<PlanoModel> getAutocCompleteTextFormFieldPlano({
     @required BuildContext context,
@@ -194,5 +219,20 @@ class CustonWidget {
                 borderRadius: BorderRadius.circular(5)))),
       ),
     );
+  }
+
+  static Widget getTextButton(
+      {@required String text,
+      @required Function() onPressed,
+      Color textColor = Colors.blueAccent}) {
+    return Container(
+        width: double.infinity,
+        height: 48,
+        child: TextButton(
+            onPressed: onPressed,
+            child: Text(
+              text,
+              style: TextStyle(color: textColor),
+            )));
   }
 }

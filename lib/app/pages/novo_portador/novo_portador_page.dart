@@ -11,7 +11,6 @@ class NovoPortadorPage {
     return showDialog(
       useSafeArea: true,
       context: context,
-      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Novo portador'),
@@ -54,17 +53,6 @@ class NovoPortadorPage {
     });
   }
 
-  Widget getFieldSaldo(BuildContext context) {
-    return Observer(builder: (_) {
-      return CustonWidget.getTextFormField(
-          context: context,
-          hintText: 'Saldo atual',
-          enabled: !_controller.getBusy,
-          validator: (value) => value.isEmpty ? 'Informe o saldo' : null,
-          onSaved: (value) => _controller.portadorModel.nome = value);
-    });
-  }
-
   Widget getFieldContrapartida(BuildContext context) {
     return Observer(builder: (_) {
       return _controller.getPlanos.isEmpty
@@ -79,6 +67,17 @@ class NovoPortadorPage {
                 _controller.portadorModel.plano = item;
               },
               controller: _controller.planoController);
+    });
+  }
+
+  Widget getFieldSaldo(BuildContext context) {
+    return Observer(builder: (_) {
+      return CustonWidget.getTextFormField(
+          context: context,
+          hintText: 'Saldo atual',
+          enabled: !_controller.getBusy,
+          validator: (value) => value.isEmpty ? 'Informe o saldo' : null,
+          onSaved: (value) => _controller.portadorModel.nome = value);
     });
   }
 
