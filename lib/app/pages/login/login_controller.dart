@@ -6,6 +6,7 @@ import 'package:despesas_app/app/services/usuario_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'login_controller.g.dart';
 
@@ -79,10 +80,13 @@ abstract class _LoginController with Store {
     }
   }
 
-  _aplyUserConfig(UsuarioModel usuarioModel) {
+  _aplyUserConfig(UsuarioModel usuarioModel) async {
     if (usuarioModel.usuarioConfigModel.darkTheme &&
         !_appController.getDarkTheme) {
       _appController.changeDarkTheme();
     }
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('dark_theme', usuarioModel.usuarioConfigModel.darkTheme);
   }
 }

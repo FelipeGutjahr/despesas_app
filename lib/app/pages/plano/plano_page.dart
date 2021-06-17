@@ -16,17 +16,17 @@ class _PlanoPageState extends State<PlanoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: getAppBar(),
+        appBar: _getAppBar(),
         drawer: CustonWidget.getDrawer(),
-        body: getBody(context),
-        floatingActionButton: getFloatingActionButton());
+        body: _getBody(context),
+        floatingActionButton: _getFloatingActionButton());
   }
 
-  Widget getAppBar() {
+  Widget _getAppBar() {
     return AppBar(centerTitle: true, title: Text('Plano de contas'));
   }
 
-  Widget getFloatingActionButton() {
+  Widget _getFloatingActionButton() {
     return FloatingActionButton(
       child: Icon(Icons.add_rounded),
       onPressed: () async {
@@ -39,31 +39,21 @@ class _PlanoPageState extends State<PlanoPage> {
     );
   }
 
-  Widget getBody(BuildContext context) {
+  Widget _getBody(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
         padding: EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            StreamBuilder(
-                stream: controller.getPlanos,
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<PlanoModel>> snapshot) {
-                  return Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: snapshot.hasData
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children:
-                                snapshot.data.map((e) => getItem(e)).toList(),
-                          )
-                        : CircularProgressIndicator(),
-                  );
-                }),
-          ],
-        ),
+        child: StreamBuilder(
+            stream: controller.getPlanos,
+            builder: (BuildContext context,
+                AsyncSnapshot<List<PlanoModel>> snapshot) {
+              return snapshot.hasData
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: snapshot.data.map((e) => getItem(e)).toList(),
+                    )
+                  : CircularProgressIndicator();
+            }),
       ),
     );
   }

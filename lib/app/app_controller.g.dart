@@ -9,6 +9,13 @@ part of 'app_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AppController on _AppController, Store {
+  Computed<bool> _$getTokenIsValidComputed;
+
+  @override
+  bool get getTokenIsValid =>
+      (_$getTokenIsValidComputed ??= Computed<bool>(() => super.getTokenIsValid,
+              name: '_AppController.getTokenIsValid'))
+          .value;
   Computed<bool> _$getDarkThemeComputed;
 
   @override
@@ -16,6 +23,21 @@ mixin _$AppController on _AppController, Store {
       (_$getDarkThemeComputed ??= Computed<bool>(() => super.getDarkTheme,
               name: '_AppController.getDarkTheme'))
           .value;
+
+  final _$_tokenAtom = Atom(name: '_AppController._token');
+
+  @override
+  String get _token {
+    _$_tokenAtom.reportRead();
+    return super._token;
+  }
+
+  @override
+  set _token(String value) {
+    _$_tokenAtom.reportWrite(value, super._token, () {
+      super._token = value;
+    });
+  }
 
   final _$_darkThemeAtom = Atom(name: '_AppController._darkTheme');
 
@@ -36,6 +58,17 @@ mixin _$AppController on _AppController, Store {
       ActionController(name: '_AppController');
 
   @override
+  void _setToken(dynamic token) {
+    final _$actionInfo = _$_AppControllerActionController.startAction(
+        name: '_AppController._setToken');
+    try {
+      return super._setToken(token);
+    } finally {
+      _$_AppControllerActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void changeDarkTheme() {
     final _$actionInfo = _$_AppControllerActionController.startAction(
         name: '_AppController.changeDarkTheme');
@@ -49,6 +82,7 @@ mixin _$AppController on _AppController, Store {
   @override
   String toString() {
     return '''
+getTokenIsValid: ${getTokenIsValid},
 getDarkTheme: ${getDarkTheme}
     ''';
   }

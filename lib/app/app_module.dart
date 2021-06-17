@@ -1,4 +1,6 @@
 import 'package:despesas_app/app/app_controller.dart';
+import 'package:despesas_app/app/pages/duplicata_receber/duplicata_controller.dart';
+import 'package:despesas_app/app/pages/duplicata_receber/duplicata_page.dart';
 import 'package:despesas_app/app/pages/home/home_controller.dart';
 import 'package:despesas_app/app/pages/home/home_page.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
@@ -43,6 +45,7 @@ class AppModule extends Module {
         Bind((i) => DuplicataService(i.get())),
         Bind((i) => SettingsController()),
         Bind((i) => UsuarioService(i.get())),
+        Bind((i) => DuplicataController()),
       ];
 
   //rotas nomeadas
@@ -52,6 +55,7 @@ class AppModule extends Module {
         ChildRoute('/login', child: (__, args) => LoginPage()),
         ChildRoute('/home', child: (__, args) => HomePage()),
         ChildRoute('/settings', child: (__, args) => SettingsPage()),
-        ChildRoute('/plano', child: (__, args) => PlanoPage())
+        ChildRoute('/plano', child: (__, args) => PlanoPage()),
+        ChildRoute('/duplicata', child: (__, args) => Duplicata())
       ];
 }

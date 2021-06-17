@@ -16,6 +16,5 @@ class AuthService {
   Future gravarToken(String token) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('token_access', token);
-    prefs.getString('token_acesss');
   }
 }

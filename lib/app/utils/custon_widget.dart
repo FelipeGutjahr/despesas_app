@@ -56,7 +56,7 @@ class CustonWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            child: Text('DrawerHeader'),
+            child: Text(''),
             decoration: BoxDecoration(color: Colors.blueAccent),
           ),
           ListTile(
@@ -65,19 +65,14 @@ class CustonWidget {
             onTap: () => Modular.to.pushNamed('/home'),
           ),
           ListTile(
+            leading: Icon(Icons.payments_outlined),
+            title: Text('Duplicatas'),
+            onTap: () => Modular.to.pushNamed('/duplicata'),
+          ),
+          ListTile(
             leading: Icon(Icons.format_list_numbered_rounded),
             title: Text('Plano de contas'),
             onTap: () => Modular.to.pushNamed('/plano'),
-          ),
-          ListTile(
-            leading: Icon(Icons.payments_outlined),
-            title: Text('Duplicatas a receber'),
-            onTap: () => Modular.to.pushNamed('/duplicata-receber'),
-          ),
-          ListTile(
-            leading: Icon(Icons.payments_outlined),
-            title: Text('Duplicatas a pagar'),
-            onTap: () => Modular.to.pushNamed('/duplicata-pagar'),
           ),
           Divider(),
           ListTile(
@@ -92,6 +87,8 @@ class CustonWidget {
       ),
     );
   }
+
+  TextEditingController defaultController = TextEditingController();
 
   /* TEXT FORM FIELD */
   static TextFormField getTextFormField(

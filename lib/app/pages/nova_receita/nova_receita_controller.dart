@@ -45,7 +45,7 @@ abstract class _NovaReceitaController with Store {
       maxPlaceHolders: 3);
 
   LancamentoModel lancamentoModel = LancamentoModel();
-  DuplicataModel duplicataModel = DuplicataModel(aReceber: true);
+  DuplicataModel duplicataModel = DuplicataModel(receber: true);
 
   @observable
   bool _busy = false;

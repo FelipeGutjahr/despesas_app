@@ -26,7 +26,7 @@ abstract class _NovaDespesaController with Store {
     portadorController.text = '';
     planoController.text = '';
     lancamentoModel = LancamentoModel();
-    duplicataModel = DuplicataModel(aReceber: false);
+    duplicataModel = DuplicataModel(receber: false);
   }
 
   final _lancamentoService = Modular.get<LancamentoService>();
@@ -54,7 +54,7 @@ abstract class _NovaDespesaController with Store {
   var makFormaterParcelas = TextInputMask(mask: '9+9');
 
   LancamentoModel lancamentoModel = LancamentoModel();
-  DuplicataModel duplicataModel = DuplicataModel(aReceber: false);
+  DuplicataModel duplicataModel = DuplicataModel(receber: false);
 
   @observable
   bool _busy = false;
