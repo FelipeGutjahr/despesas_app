@@ -12,22 +12,25 @@ class LoginPage extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     String pathImage =
         'assets/images/login_image_${imageNumber.toString()}.jpg';
-    return Scaffold(
-      body: Container(
-        width: size.width,
-        height: size.height,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(pathImage), fit: BoxFit.cover)),
-        child: SingleChildScrollView(child: _body(context)),
-      ),
-    );
-  }
 
-  Widget _body(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [TopText(), SizedBox(height: 50), CustonForm()],
+    return Scaffold(
+      body: GestureDetector(
+        onTap: () => {FocusScope.of(context).unfocus()},
+        child: Container(
+          width: size.width,
+          height: size.height,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(pathImage), fit: BoxFit.cover)),
+          child: Center(
+            child: SingleChildScrollView(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [TopText(), SizedBox(height: 50), CustonForm()],
+            )),
+          ),
+        ),
+      ),
     );
   }
 }
