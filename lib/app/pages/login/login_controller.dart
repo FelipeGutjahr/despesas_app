@@ -37,6 +37,9 @@ abstract class _LoginController with Store {
   @observable
   bool _withErrorSenha = false;
 
+  @observable
+  String _errorMessage = '';
+
   @action
   void changeObscurePassword() => _obscurePassword = !_obscurePassword;
 
@@ -49,6 +52,9 @@ abstract class _LoginController with Store {
   @action
   void changeWithErrorSenha() => _withErrorSenha = !_withErrorSenha;
 
+  @action
+  void setErrorMessage(String message) => _errorMessage = message;
+
   @computed
   bool get getObscurePassword => _obscurePassword;
 
@@ -60,6 +66,9 @@ abstract class _LoginController with Store {
 
   @computed
   bool get getWithErrorSenha => _withErrorSenha;
+
+  @computed
+  String get getErrorMessage => _errorMessage;
 
   logar(BuildContext context) async {
     formKey.currentState.validate();
@@ -74,8 +83,7 @@ abstract class _LoginController with Store {
         Modular.to.pushReplacementNamed('/home');
       }).catchError((error) {
         changeBusy();
-        print('ERRO AO FAZER LOGIN: ${error.toString()}');
-        //TODO: implementar tratamento de erro
+        setErrorMessage(error.toString());
       });
     }
   }

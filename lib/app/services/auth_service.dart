@@ -9,8 +9,8 @@ class AuthService {
 
   Future<void> login(LoginModel loginModel) async {
     Response res = await _dio.post('/login', data: loginModel.toJson());
-    var token = res.headers.value('Authorization');
-    await gravarToken(token);
+    //var token = res.headers.value('Authorization');
+    await gravarToken(res.toString());
   }
 
   Future gravarToken(String token) async {

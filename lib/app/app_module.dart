@@ -36,7 +36,8 @@ class AppModule extends Module {
         Bind((i) => LancamentoService(i.get())),
         Bind((i) => HomeService(i.get())),
         Bind((i) => PlanoService(i.get())),
-        Bind((i) => Dio(BaseOptions(baseUrl: BASE_URL))),
+        Bind((i) => Dio(BaseOptions(
+            baseUrl: BASE_URL, connectTimeout: 5000, receiveTimeout: 3000))),
         Bind((i) => PlanoController()),
         Bind((i) => NovoPlanoController()),
         Bind((i) => NovaDespesaController()),

@@ -20,7 +20,7 @@ class UsuarioModel {
     id = json['id'];
     nome = json['nome'];
     email = json['email'];
-    dtCadastro = DateTime.parse(json['dt_cadastro']);
+    dtCadastro = DateTime.parse(json['dtCadastro']);
     perfil = json['perfil'];
     usuarioConfigModel = json['usuarioConfig'] != null
         ? new UsuarioConfigModel.fromJson(json['usuarioConfig'])

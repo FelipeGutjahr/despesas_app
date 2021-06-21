@@ -1,8 +1,9 @@
+import 'package:despesas_app/app/pages/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 class FieldSenha extends StatelessWidget {
-  final controller;
+  final LoginController controller;
   const FieldSenha({Key key, this.controller}) : super(key: key);
 
   @override

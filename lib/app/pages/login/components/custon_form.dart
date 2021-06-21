@@ -1,3 +1,4 @@
+import 'package:despesas_app/app/pages/login/components/error_message.dart';
 import 'package:despesas_app/app/pages/login/components/field_email.dart';
 import 'package:despesas_app/app/pages/login/components/field_senha.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
@@ -28,7 +29,8 @@ class CustonForm extends StatelessWidget {
             SizedBox(height: 30),
             BtnEntrar(controller: controller),
             SizedBox(height: 10),
-            BtnSenha()
+            BtnSenha(),
+            ErrorMessage(controller: controller),
           ],
         ),
       ),
@@ -44,7 +46,7 @@ class BtnSenha extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: Text('Esqueci minha senha',
+      child: SelectableText('Esqueci minha senha',
           textAlign: TextAlign.center,
           style: TextStyle(color: Colors.white, shadows: [
             Shadow(blurRadius: 10, color: Colors.black54, offset: Offset(5, 5))
@@ -91,7 +93,8 @@ class SenhaError extends StatelessWidget {
                 children: [
                   Icon(Icons.error_outline, color: Colors.red),
                   SizedBox(width: 5),
-                  Text('Senha inválida', style: TextStyle(color: Colors.red))
+                  SelectableText('Senha inválida',
+                      style: TextStyle(color: Colors.red))
                 ],
               )
             : Container(height: 0, width: 0);
@@ -117,7 +120,8 @@ class EmailError extends StatelessWidget {
                 children: [
                   Icon(Icons.error_outline, color: Colors.red),
                   SizedBox(width: 5),
-                  Text('E-mail inválido', style: TextStyle(color: Colors.red))
+                  SelectableText('E-mail inválido',
+                      style: TextStyle(color: Colors.red))
                 ],
               )
             : Container(height: 0, width: 0);
