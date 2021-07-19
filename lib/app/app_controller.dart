@@ -35,8 +35,8 @@ abstract class _AppController with Store {
 
   _getSettings() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.getBool('dark_theme') != null && prefs.getBool('dark_theme'))
-      changeDarkTheme();
+    if (prefs.getBool('dark_theme') != null &&
+        prefs.getBool('dark_theme') == true) changeDarkTheme();
     _setToken(prefs.getString('token_acesss'));
   }
 }

@@ -1,13 +1,18 @@
-import 'package:despesas_app/app/model/plano_model.dart';
+/*import 'package:despesas_app/app/model/plano_model.dart';
 
 class PortadorModel {
-  int id;
-  String nome;
-  PlanoModel plano;
-  bool credito;
-  double limite;
+  int? id;
+  String? nome;
+  PlanoModel? plano;
+  bool? credito;
+  double? limite;
 
-  PortadorModel({this.id, this.nome, this.plano, this.credito, this.limite});
+  PortadorModel(
+      {this.id,
+      required this.nome,
+      required this.plano,
+      required this.credito,
+      this.limite});
 
   PortadorModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -23,7 +28,7 @@ class PortadorModel {
     data['nome'] = this.nome;
     data['credito'] = this.credito;
     data['limite'] = this.limite;
-    data['plano_id'] = this.plano.id;
+    data['plano_id'] = this.plano?.id;
     return data;
   }
-}
+}*/

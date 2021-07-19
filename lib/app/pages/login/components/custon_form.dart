@@ -1,8 +1,8 @@
+import 'package:despesas_app/app/components/elevated_button_component.dart';
 import 'package:despesas_app/app/pages/login/components/error_message.dart';
 import 'package:despesas_app/app/pages/login/components/field_email.dart';
 import 'package:despesas_app/app/pages/login/components/field_senha.dart';
 import 'package:despesas_app/app/pages/login/login_controller.dart';
-import 'package:despesas_app/app/utils/custon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -67,11 +67,11 @@ class BtnEntrar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      return CustonWidget.getElevatedButton(
+      return ElevatedButtonComponent(
           text: 'Iniciar Sessão',
+          busy: controller.getBusy,
           onPressed: () =>
-              controller.getBusy ? null : controller.logar(context),
-          busy: controller.getBusy);
+              controller.getBusy ? null : controller.logar(context));
     });
   }
 }

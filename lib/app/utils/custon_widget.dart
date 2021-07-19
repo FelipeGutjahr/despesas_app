@@ -1,6 +1,5 @@
-import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+/*import 'package:autocomplete_textfield/autocomplete_textfield.dart';
 import 'package:despesas_app/app/model/plano_model.dart';
-import 'package:despesas_app/app/model/portador_model.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -10,11 +9,11 @@ class CustonWidget {
 
   /* ALERTA NA TELA */
   static Future<void> showAlertDialog({
-    @required BuildContext context,
-    @required String title,
-    @required String bodyText,
-    @required String textConfirmBtn,
-    @required void Function() onPressed,
+    required BuildContext context,
+    required String title,
+    required String bodyText,
+    required String textConfirmBtn,
+    required void Function() onPressed,
     bool showBtnCancelar = false,
   }) {
     return showDialog<void>(
@@ -39,9 +38,9 @@ class CustonWidget {
   }
 
   Future<void> showAlertForm(
-      {@required BuildContext context,
-      @required String title,
-      @required Widget form}) {
+      {required BuildContext context,
+      required String title,
+      required Widget form}) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -92,20 +91,20 @@ class CustonWidget {
 
   /* TEXT FORM FIELD */
   static TextFormField getTextFormField(
-      {@required BuildContext context,
-      @required String hintText,
+      {required BuildContext context,
+      required String hintText,
       bool enabled = true,
-      Function(String) validator,
-      Icon prefixIcon,
+      bool validator = false,
+      Icon? prefixIcon,
       var inputFormatters,
       String initialValue = '',
-      FocusNode focus,
-      FocusNode nextFocus,
+      FocusNode? focus,
+      FocusNode? nextFocus,
       TextInputType keyboardType = TextInputType.text,
       int maxLines = 1,
       TextCapitalization textCapitalization = TextCapitalization.sentences,
-      Function(String) onChanged,
-      Function(String) onSaved}) {
+      Function(String)? onChanged,
+      required Function(String) onSaved(value)}) {
     return TextFormField(
       inputFormatters: inputFormatters == null ? [] : [inputFormatters],
       decoration: InputDecoration(
@@ -114,7 +113,15 @@ class CustonWidget {
         prefixIcon: prefixIcon,
       ),
       enabled: enabled,
-      validator: validator == null ? (value) => null : validator,
+      validator: (value) {
+        if (validator) {
+          if (value == null)
+            return 'Campo obrigatório';
+          else
+            return null;
+        } else
+          return null;
+      },
       maxLines: maxLines,
       initialValue: initialValue,
       keyboardType: keyboardType,
@@ -129,16 +136,16 @@ class CustonWidget {
   /* AUTOCOMPLETE TEXT FORM FIELD PORTADOR */
   static AutoCompleteTextField<PortadorModel>
       getAutocCompleteTextFormFieldPortador({
-    @required BuildContext context,
-    @required List<PortadorModel> suggestions,
-    @required String hintText,
-    Icon prefixIcon,
-    FocusNode focus,
-    FocusNode nextFocus,
+    required BuildContext context,
+    required List<PortadorModel> suggestions,
+    required String hintText,
+    Icon? prefixIcon,
+    FocusNode? focus,
+    FocusNode? nextFocus,
     GlobalKey<AutoCompleteTextFieldState<PortadorModel>> key,
-    @required TextEditingController controller,
+    required TextEditingController controller,
     AutoCompleteTextField autoCompleteTextField,
-    @required Function(PortadorModel) itemSubmitted,
+    required Function(PortadorModel) itemSubmitted,
   }) {
     autoCompleteTextField = AutoCompleteTextField<PortadorModel>(
       key: key,
@@ -163,17 +170,17 @@ class CustonWidget {
 
   /* AUTOCOMPLETE TEXT FORM FIELD PLANO */
   static AutoCompleteTextField<PlanoModel> getAutocCompleteTextFormFieldPlano({
-    @required BuildContext context,
-    @required List<PlanoModel> suggestions,
-    @required String hintText,
+    required BuildContext context,
+    required List<PlanoModel> suggestions,
+    required String hintText,
     //@required bool enabled,
-    Icon prefixIcon,
-    FocusNode focus,
-    FocusNode nextFocus,
+    Icon? prefixIcon,
+    FocusNode? focus,
+    FocusNode? nextFocus,
     GlobalKey<AutoCompleteTextFieldState<PlanoModel>> key,
-    @required TextEditingController controller,
-    AutoCompleteTextField autoCompleteTextField,
-    @required Function(PlanoModel) itemSubmitted,
+    required TextEditingController controller,
+    AutoCompleteTextField? autoCompleteTextField,
+    required Function(PlanoModel) itemSubmitted,
   }) {
     return AutoCompleteTextField<PlanoModel>(
       key: key,
@@ -198,9 +205,9 @@ class CustonWidget {
 
   /* ELEVATED BUTTON */
   static Widget getElevatedButton(
-      {@required String text,
-      @required Function() onPressed,
-      @required bool busy}) {
+      {required String text,
+      required Function() onPressed,
+      required bool busy}) {
     return Container(
       height: 48,
       width: double.infinity,
@@ -219,8 +226,8 @@ class CustonWidget {
   }
 
   static Widget getTextButton(
-      {@required String text,
-      @required Function() onPressed,
+      {required String text,
+      required Function() onPressed,
       Color textColor = Colors.blueAccent}) {
     return Container(
         width: double.infinity,
@@ -232,4 +239,4 @@ class CustonWidget {
               style: TextStyle(color: textColor),
             )));
   }
-}
+}*/

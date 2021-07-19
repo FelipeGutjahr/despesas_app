@@ -1,4 +1,4 @@
-import 'package:despesas_app/app/model/plano_model.dart';
+/*import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:despesas_app/app/services/plano_service.dart';
 import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
@@ -37,4 +37,4 @@ abstract class _NovoPlanoController with Store {
       Modular.to.pop();
     }
   }
-}
+}*/

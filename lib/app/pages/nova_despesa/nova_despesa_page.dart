@@ -1,4 +1,4 @@
-import 'package:despesas_app/app/pages/nova_despesa/nova_despesa_controller.dart';
+/*import 'package:despesas_app/app/pages/nova_despesa/nova_despesa_controller.dart';
 import 'package:despesas_app/app/utils/custon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -80,9 +80,7 @@ class NovaDepesaPage {
           nextFocus: _controller.valorFocus,
           enabled: !_controller.getBusy,
           inputFormatters: _controller.maskFormatterData,
-          validator: (value) {
-            if (value.isEmpty || value.length < 10) return 'Data inválida';
-          },
+          validator: true,
           onSaved: (value) {
             var formattedDate = value.split('/');
             DateTime data = new DateTime.utc(int.parse(formattedDate[2]),
@@ -289,4 +287,4 @@ class NovaDepesaPage {
           busy: _controller.getBusy);
     });
   }
-}
+}*/

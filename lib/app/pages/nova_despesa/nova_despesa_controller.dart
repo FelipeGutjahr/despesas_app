@@ -6,7 +6,7 @@ import 'package:despesas_app/app/services/duplicata_service.dart';
 import 'package:despesas_app/app/services/lancamento_service.dart';
 import 'package:despesas_app/app/services/plano_service.dart';
 import 'package:despesas_app/app/services/portador_service.dart';
-import 'package:easy_mask/easy_mask.dart';
+/*import 'package:easy_mask/easy_mask.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
@@ -176,4 +176,4 @@ abstract class _NovaDespesaController with Store {
     }
     changeBusy();
   }
-}
+}*/

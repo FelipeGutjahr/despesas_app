@@ -1,4 +1,4 @@
-import 'package:despesas_app/app/model/plano_model.dart';
+/*import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,4 +22,4 @@ class PlanoService {
     Response res = await _dio.post(_path, data: planoModel.toJson());
     print('Status code: ${res.statusCode}');
   }
-}
+}*/

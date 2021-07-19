@@ -1,8 +1,8 @@
-class PlanoModel {
-  int id;
-  String codContabil;
-  String nome;
-  bool dre;
+/*class PlanoModel {
+  int? id;
+  String? codContabil;
+  String? nome;
+  bool? dre;
 
   PlanoModel({this.id, this.codContabil, this.nome, this.dre});
 
@@ -22,3 +22,4 @@ class PlanoModel {
     return data;
   }
 }
+*/

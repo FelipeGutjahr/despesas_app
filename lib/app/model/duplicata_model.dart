@@ -1,16 +1,16 @@
-import 'package:despesas_app/app/model/plano_model.dart';
+/*import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:despesas_app/app/model/portador_model.dart';
 
 class DuplicataModel {
-  int id;
-  DateTime dataInclusao;
-  DateTime dataVencimento;
-  double valor;
-  double saldo;
-  String observacao;
-  bool receber;
-  PortadorModel portador;
-  PlanoModel plano;
+  int? id;
+  DateTime? dataInclusao;
+  DateTime? dataVencimento;
+  double? valor;
+  double? saldo;
+  String? observacao;
+  bool? receber;
+  PortadorModel? portador;
+  PlanoModel? plano;
 
   DuplicataModel(
       {this.id,
@@ -47,8 +47,8 @@ class DuplicataModel {
     data['saldo'] = this.saldo;
     data['observacao'] = this.observacao;
     data['receber'] = this.receber;
-    data['portador_id'] = this.portador.id;
-    data['plano_id'] = this.plano.id;
+    data['portador_id'] = this.portador?.id;
+    data['plano_id'] = this.plano?.id;
     return data;
   }
 
@@ -58,4 +58,4 @@ class DuplicataModel {
         int.parse(formattedDate[1]), int.parse(formattedDate[2]));
     return dataNew;
   }
-}
+}*/

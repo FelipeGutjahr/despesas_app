@@ -17,7 +17,7 @@ class AppWidget extends StatelessWidget {
                 _controller.getDarkTheme ? ThemeMode.dark : ThemeMode.light,
             debugShowCheckedModeBanner: false,
             title: 'Despesas App',
-            initialRoute: '/')
+            initialRoute: '/home')
         .modular();
   }
 }

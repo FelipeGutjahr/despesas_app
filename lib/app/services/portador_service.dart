@@ -1,4 +1,4 @@
-import 'package:despesas_app/app/model/portador_model.dart';
+/*import 'package:despesas_app/app/model/portador_model.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,3 +23,4 @@ class PortadorService {
     print('Status code: ${res.statusCode}');
   }
 }
+*/

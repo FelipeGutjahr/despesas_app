@@ -35,7 +35,7 @@ class UsuarioModel {
     data['dt_cadastro'] = this.dtCadastro;
     data['perfil'] = this.perfil;
     if (this.usuarioConfigModel != null) {
-      data['usuarioConfig'] = this.usuarioConfigModel.toJson();
+      data['usuarioConfig'] = this.usuarioConfigModel?.toJson();
     }
     return data;
   }

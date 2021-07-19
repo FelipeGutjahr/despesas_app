@@ -1,26 +1,26 @@
-import 'package:despesas_app/app/model/plano_model.dart';
+/*import 'package:despesas_app/app/model/plano_model.dart';
 import 'package:intl/intl.dart';
 
 class LancamentoModel {
-  int id;
-  DateTime data;
-  double valor;
-  String historico;
-  PlanoModel planoDebito;
-  PlanoModel planoCredito;
-  bool isCredito;
-  bool isParcelado;
-  int qtdParcelas;
+  int? id;
+  late DateTime data;
+  double? valor;
+  String? historico;
+  PlanoModel? planoDebito;
+  PlanoModel? planoCredito;
+  bool? isCredito;
+  bool? isParcelado;
+  int? qtdParcelas;
 
   LancamentoModel(
       {this.id,
-      this.data,
-      this.valor,
-      this.historico,
-      this.planoDebito,
-      this.planoCredito,
-      this.isCredito,
-      this.isParcelado,
+      required this.data,
+      required this.valor,
+      required this.historico,
+      required this.planoDebito,
+      required this.planoCredito,
+      required this.isCredito,
+      required this.isParcelado,
       this.qtdParcelas});
 
   LancamentoModel.fromJson(Map<String, dynamic> json) {
@@ -37,8 +37,8 @@ class LancamentoModel {
     data['data'] = DateFormat("yyyy-MM-dd").format(this.data);
     data['valor'] = this.valor;
     data['historico'] = this.historico;
-    data['plano_debito_id'] = this.planoDebito.id;
-    data['plano_credito_id'] = this.planoCredito.id;
+    data['plano_debito_id'] = this.planoDebito?.id;
+    data['plano_credito_id'] = this.planoCredito?.id;
     data['is_credito'] = this.isCredito == null ? false : this.isCredito;
     data['is_parcelado'] = this.isParcelado == null ? false : this.isParcelado;
     data['qtd_parcelas'] = this.qtdParcelas == null ? 0 : this.qtdParcelas;
@@ -50,4 +50,4 @@ class LancamentoModel {
     print(this.data.toString());
     return super.toString();
   }
-}
+}*/
